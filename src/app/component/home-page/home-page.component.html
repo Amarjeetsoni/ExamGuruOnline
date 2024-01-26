@@ -1,0 +1,384 @@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+    <div class="container">
+      <img src="../../../assets/logo.png" alt="">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#home" (click)="homeFunction()">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about" (click)="aboutFunction()">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#service" (click)="serviceFunction()">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact" (click)="contactFunction()">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+        </ul>
+        <button class="btn btn-link my-2 my-sm-0" style="margin-left: 30%;" (click)="signUpFunction()">SignUp</button>
+        /
+        <button class="btn btn-link my-2 my-sm-0" (click)="loginFunction()">Login</button>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Full Page Image Header with Vertically Centered Content -->
+  <header class="masthead" *ngIf="home==1">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-12 text-center">
+          <h1 class="fw-light typewriter">Elevate Learning, Illuminate Potential:</h1>
+          <h4 class="fw-light typewriter">Unleash Success with Our Online Exam Hub!</h4><br>
+          <p class="lead">Assessment, instruction, and practice that motivate every student <br> —now enhanced with AI</p>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Page Content -->
+  
+  
+  <section class="py-5">
+    <div class="container" *ngIf="home==1">
+      <h2 class="fw-light text-color-change">Welcome to ExamGuruOnline - Your Gateway to Free Online Exam Excellence!</h2>
+      <p>At ExamGuruOnline, we believe in democratizing education and making exam preparation 
+        accessible to everyone. Our platform is designed to empower learners by providing a space 
+        for free online tests that cover a diverse range of subjects and exams. <br>Whether you're a 
+        student gearing up for an upcoming test or an educator looking for a reliable platform to 
+        host assessments, ExamGuruOnline is your go-to destination.</p>
+      <br><br>
+      <h2>Why Choose <mark>ExamGuruOnline</mark> for Free Online Exam?</h2>
+      <br>
+      <table>
+        <tr>
+          <td>
+            <img src="https://basmo.app/wp-content/uploads/2021/09/reading-multiple-books-at-once-1024x557.jpg.webp" alt="multiple Subject" style="width:600px;height:400px;">
+          </td>
+          <td>
+            <h2>Wide Range of Subjects</h2>
+            <p>Explore an extensive array of subjects and exams for free. 
+              From academic subjects to competitive exams, we've got it all covered. 
+              Our platform is versatile, catering to the diverse needs of learners across 
+              different levels.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h2>User-Friendly Interface</h2>
+            <p>Our intuitive and user-friendly interface ensures a seamless experience for both 
+              test-takers and educators. Easily navigate through the platform, create tests, 
+              and take assessments with just a few clicks.</p>
+          </td>
+          <td><img src="https://therealtimereport.com/wp-content/uploads/2017/05/user-friendly-interface.png" alt="User Friendly Interface" style="width:600px;height:400px;"></td>
+        </tr>
+        <tr>
+          <td><img src="https://www.alooba.com/static/4a9c489ddcca812cdb2b9060df600b35/junior_clouds_image_c4d3e8ff32.svg" alt="Customizable Exam" style="width:600px;height:400px;"></td>
+          <td>
+            <h2>Customizable Tests</h2>
+            <p>Tailor your tests to match your specific requirements. With our customizable test options, 
+              you can choose the number of questions, time limits, and difficulty levels. 
+              Create a personalized testing experience that suits your learning goals.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h2>Instant Feedback</h2>
+            <p>Receive instant feedback on your performance. Our platform provides detailed results and 
+              explanations for each question, helping you understand your strengths and areas that need 
+              improvement.</p>
+          </td>
+          <td><img src="https://primalogik.com/wp-content/uploads/2020/05/instant-feedback-primalogik-980x602.png" alt="Instant feedback" style="width:600px;height:400px;"></td>
+        </tr>
+        <tr>
+          <td><img src="https://reportei.com/wp-content/uploads/2022/02/Digital-performance-analysis-a-complete-guide-to-understanding-your-results.png" alt="Performace" style="width:600px;height:400px;"></td>
+          <td>
+            <h2>Performance Analytics</h2>
+            <p>Track your progress over time with our comprehensive performance analytics. 
+              Identify trends, monitor your growth, and make data-driven decisions to enhance your 
+              preparation strategy.</p>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <h2>For <mark>Educators:</mark></h2>
+      <br>
+      <table>
+        <tr>
+          <td>
+            <h2>Create and Manage Test</h2>
+            <p>Easily create and manage tests for your students. 
+              Our platform allows educators to design assessments that align with their curriculum, 
+              ensuring a seamless integration of online testing into the learning process.</p>
+          </td>
+          <td><img src="https://onlineexammaker.com/img/solutions/kids-online-learning.webp" alt="Create and Manage" style="width:600px;height:400px;"></td>
+        </tr>
+        <tr>
+          <td><img src="https://kansasreflector.com/wp-content/uploads/2023/04/GettyImages-1408776142-1024x683.jpg" alt="Grading" style="width:600px;height:400px;"></td>
+          <td>
+            <h2>Effortless Grading</h2>
+            <p>Say goodbye to manual grading. Our automated grading system streamlines the assessment 
+              process, saving educators valuable time and providing instant results to students.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h2>Secure and Reliable</h2>
+            <p>Rest assured that your tests are conducted in a secure and reliable environment. 
+              Our platform employs robust security measures to maintain the integrity of assessments.</p>
+          </td>
+          <td><img src="https://www.menlosecurity.com/wp-content/uploads/2021/06/Menlo_CloudFirewall_Illustration@-1.svg" alt="Secure" style="width:600px;height:400px;"></td>
+        </tr>
+      </table>
+      <br>
+      <p style="color: orangered; font-size: 2vw;">Join ExamGuruOnline today and experience the freedom of learning and testing without any cost. 
+        Elevate your exam preparation with our free online testing platform. Let's embark on the journey to 
+        academic success together!</p>
+    </div>
+    <div class="container" *ngIf="home==4">
+       <br><br><br>
+      <h2 class="fw-light"><mark>ExamGuruOnline</mark> Contact</h2>
+      <br><br>
+      <h3>Contact Information</h3>
+      <br>
+      <h4>Customer Support</h4>
+      <br>
+      <p>If you have any questions, concerns, or require assistance, our customer support team is here to help. You can reach us via:</p>
+      <br>
+      <table>
+        <tr>
+          <th>&#xb7; Email: </th>
+          <td><a href = "mailto: support@examguruonline.com">support@examguruonline.com</a></td>
+        </tr>
+        <tr>
+          <th>&#xb7; Phone: </th>
+          <td>+1 (555) 123-4567</td>
+        </tr>
+        <tr>
+          <th>&#xb7; Live Chat: </th>
+          <td>Click the chat bubble in the bottom right corner of your screen</td>
+        </tr>
+      </table>
+      <br>
+      <h4>Business Inquiries</h4>
+      <br>
+      <p>For business-related inquiries, partnerships, or collaboration opportunities, please contact our business development team:</p>
+      <br>
+      <table>
+        <tr>
+          <th>&#xb7; Email: </th>
+          <td><a href = "mailto: business@examguruonline.com">business@examguruonline.com</a></td>
+        </tr>
+        <tr>
+          <td>&#xb7; Phone: </td>
+          <td>+1 (555) 987-6543</td>
+        </tr>
+      </table>
+      <br>
+      <h3>Office Location</h3>
+      <br>
+      <p>All of our offices are operating online.</p>
+      <br>
+      <h3>Feedback</h3>
+      <br>
+      <p>Your feedback is valuable to us. If you have suggestions, comments, or testimonials you'd like to share, 
+        please email us at <a href = "mailto: feedback@examguruonline.com">feedback@examguruonline.com</a>.</p>
+      <br>
+      <br>
+      <h3>Frequently Asked Questions (FAQs)</h3>
+      <br>
+      <p>Before reaching out, you might find answers to common questions in our FAQ section to help you quickly get the information you need.</p>
+      <br>
+      <p>We appreciate your interest in ExamguruOnline, and our team is committed to providing you with the best possible support. Feel free to 
+        contact us using the provided information, and we'll get back to you as soon as possible.</p>
+      <br>
+      <br>
+      <b>Thank you for choosing ExamGuruOnline!</b>
+    </div>
+    <div class="container" *ngIf="home==3">
+        <br><br><br>
+      <h2 class="fw-light"><mark>ExamGuruOnline</mark> Service</h2>
+      <p>Welcome to ExamguruOnline, where we are dedicated to providing top-notch online exam solutions to 
+        enhance your learning and assessment experience. Our platform offers a range of services tailored 
+        to meet the diverse needs of students, educators, and institutions.</p>
+      <br><br>
+        <h2>Services Overview:</h2>
+        <br>
+        <iframe width="1200" height="550" src="https://www.youtube.com/embed/ZyaLHKmrhc0">
+        </iframe>
+    </div> 
+    <div class="container" *ngIf="home==2">
+        <br><br><br>
+      <h2>Welcome To <i class="class=fw-light text-color-change">ExamGuruOnline!</i></h2>
+      <p><i>Empowering Minds, Enabling Success</i></p>
+      <br>
+      <table>
+        <tr>
+            <td><h2><u>Our Mission:</u></h2>
+                <p>At ExamGuruOnline, we are on a mission to revolutionize the way students learn and prepare for 
+                  exams. We believe in providing accessible, high-quality education to every aspiring learner, 
+                  regardless of their location or background. Our platform is designed to empower minds and enable 
+                  success in academic pursuits.</p></td>
+            <td><img src="https://thumbs.dreamstime.com/b/our-mission-handwritten-white-background-171058435.jpg" alt="Secure" style="width:600px;height:400px;"></td>
+        </tr>
+    <br>
+    <tr>
+      <td><h2><u>Our Story:</u></h2>
+        <p>ExamGuruOnline was founded in [Year] by a group of passionate educators who saw the need for a modern,
+           engaging, and inclusive online learning platform. Fueled by a commitment to democratize education,
+          we embarked on a 
+          journey to create a space where students could thrive and reach their full potential.</p></td>
+      <td><img src="https://t3.ftcdn.net/jpg/03/15/84/06/360_F_315840617_SGsHFDUElFUFUDO1X1Cd4lCqeTyNjf72.jpg" alt="Secure" style="width:600px;height:400px;"></td>
+    </tr>
+    
+    <br>
+    <tr>
+      <td><h2><u>Meet the Team:</u></h2>
+        <p>Our team is a diverse group of educators, technologists, and creatives dedicated to reshaping the future of education. 
+          Get to know the faces behind ExamGuruOnline and discover the unique skills and experiences that drive 
+          our commitment to excellence.
+          </p>
+          <table>
+              <tr>
+                  <td>&#xb7; [Founder Name] - CEO and Founder</td>
+              </tr>
+              <tr>
+                  <td>&#xb7; [Team Member 1] - Head of Education</td>
+              </tr>
+              <tr>
+                  <td>&#xb7; [Team Member 2] - Chief Technology Officer</td>
+              </tr>
+          </table></td>
+          <td><img src="https://t4.ftcdn.net/jpg/04/67/33/63/360_F_467336393_TjBbvQRKPtif18JF8REw5giGMlKi4JwC.jpg" alt="Secure" style="width:600px;height:400px;"></td>
+    </tr>
+    
+       <br>
+       <tr>
+        <td><h2><u>Values and Philosophy:</u></h2>
+          <p>At ExamGuruOnline, our core values guide everything we do. We believe in:</p> 
+           <table>
+               <tr>
+                   <td>&#xb7; Excellence in Education</td>
+               </tr>
+               <tr>
+                   <td>&#xb7; Innovation in Learning</td>
+               </tr>
+               <tr>
+                   <td>&#xb7; Accessibility for All</td>
+               </tr>
+               <tr>
+                   <td>&#xb7; Community Collaboration</td>
+               </tr>
+           </table></td>
+          <td><img src="https://st2.depositphotos.com/3591429/8171/i/450/depositphotos_81715978-stock-photo-core-values-text-concept.jpg" alt="Secure" style="width:600px;height:400px;"></td>
+       </tr>
+       
+        <br>
+        <tr>
+          <td><h2><u>What Sets Us Apart:</u></h2>
+            <p>ExamGuruOnline stands out from the crowd with:</p>
+            <table>
+                <tr>
+                    <td>&#xb7; Personalized Learning Paths</td>
+                </tr>
+                <tr>
+                    <td>&#xb7; Interactive and Engaging Content</td>
+                </tr>
+                <tr>
+                    <td>&#xb7; Real-time Progress Tracking</td>
+                </tr>
+                <tr>
+                    <td>&#xb7; 24/7 Access to Resources</td>
+                </tr>
+                <tr>
+                    <td>&#xb7; Supportive Learning Community</td>
+                </tr>
+            </table></td>
+            <td><img src="https://northwestessex.org/wp-content/uploads/2022/03/Northwest-Essex-Community-Healthcare-Network-What-Sets-Us-Apart-768x432.png" alt="Secure" style="width:600px;height:400px;"></td>
+        </tr>
+        
+        <br>
+        <tr>
+          <td><h2><u>Future Plans:</u></h2>
+            <p>Exciting things are on the horizon! We are working on:</p>
+            <table>
+                <tr>
+                    <td>&#xb7; Expanding Course Offerings</td>
+                </tr>
+                <tr>
+                    <td>&#xb7; Enhancing User Experience</td>
+                </tr>
+                <tr>
+                    <td>&#xb7; Collaborating with Industry Experts</td>
+                </tr>
+            </table></td>
+            <td><img src="https://st2.depositphotos.com/3643473/9269/i/450/depositphotos_92691370-stock-photo-person-and-word-future.jpg" alt="Secure" style="width:600px;height:400px;"></td>
+        </tr>
+        
+        <br>
+        <tr>
+          <td>
+            <h2>Join ExamGuruOnline Today:</h2>
+        <p>Embark on your learning journey with ExamGuruOnline. Sign up now and experience the difference!</p>
+          </td>
+          <td><img src="https://t3.ftcdn.net/jpg/02/88/82/38/360_F_288823833_czXfPits7m0Wh11EslZys3DIZrJnDoBf.jpg" alt="Secure" style="width:600px;height:400px;"></td>
+        </tr>
+        
+    </table>
+    </div>
+  </section>
+  <section class="">
+    <footer class="text-center text-white" style="background-color: #0a4275;">
+      <div class="container p-4 pb-0">
+        <section class="">
+          <p class="d-flex justify-content-center align-items-center">
+            <span class="me-3">Register for free</span>&nbsp;
+            <button data-mdb-ripple-init type="button" class="btn btn-outline-light btn-rounded" (click)="signUpFunction()">
+              Sign up!
+            </button>
+          </p>
+        </section>
+      </div>
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2024 Copyright:
+        <a class="text-white" href="https://ExamGuruOnline.com/">ExamGuruOnline.com</a>
+      </div>
+    </footer>
+  </section>
