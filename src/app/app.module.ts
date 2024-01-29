@@ -13,13 +13,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ForgetPasswordComponent } from './component/forget-password/forget-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     LoginPageComponent,
-    SignupPageComponent
+    SignupPageComponent,
+    ForgetPasswordComponent
   ],
   imports: [
     BrowserModule,
