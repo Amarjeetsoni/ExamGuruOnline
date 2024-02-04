@@ -6,32 +6,78 @@
             class="img-fluid" alt="Sample image">
         </div>
         <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-          <form>
-            <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-              <img src="../../../assets/logo.png" alt="" style="width:400px;height:100px;">
-            </div>
-  
+          <div class="align-items-center" style="align-items: center;">
+            <a href="/home"><img src="../../../assets/logo.png" alt="" style="width: 300px;height:75px;margin-left: 5vw;"></a>
+          </div>
+          <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <div class="divider d-flex align-items-center my-4">
               <p class="text-center fw-bold mx-3 mb-0">SIGN UP</p>
             </div>
-  
-            <!-- Email input -->
-            <div class="form-outline mb-4">
-              <input type="email" id="form3Example3" class="form-control form-control-lg"
-                placeholder="Enter a valid email address" />
-              <label class="form-label" for="form3Example3">Email address</label>
+            <div class="form-outline mb-4 row">
+                <div class="col-xs-6 col-lg-6 col-md-6 col-xl-6"><input type="text" class="form-control" name="name" id="name" formControlName="name" placeholder="Full Name" [ngClass]="{ 'is-invalid': formFields.name.touched && formFields.name.errors }">
+                <div *ngIf="formFields.name.touched && formFields.name.errors" class="invalid-feedback">
+                    <div *ngIf="formFields.name.errors.required">name is required</div>
+                    <div *ngIf="formFields.name.errors.pattern">Name must start with Caps</div>
+                </div>
+                </div>
+                <div class="col-xs-6 col-lg-6 col-md-6 col-xl-6">
+                  <select id="userRole" class="form-control" name="userRole" formControlName="userRole" [ngClass]="{ 'is-invalid': formFields.userRole.touched && formFields.userRole.errors }">
+                    <option value="">Select Role</option>
+                    <option *ngFor="let role of Role" [value]="role">{{ role }}</option>
+                  </select>
+                  <div *ngIf="formFields.userRole.touched && formFields.userRole.errors" class="invalid-feedback">
+                    <div *ngIf="formFields.userRole.errors.required">User Role is required</div>
+                  </div>
+                </div>    
             </div>
-  
-            <!-- Password input -->
-            <div class="form-outline mb-3">
-              <input type="password" id="form3Example4" class="form-control form-control-lg"
-                placeholder="Enter password" />
-              <label class="form-label" for="form3Example4">Password</label>
+            <div class="form-outline mb-4 row">
+              <div class="col-xs-6 col-lg-6 col-md-6 col-xl-6">
+              <select id="securityQuestion" name="securityQuestion" formControlName="securityQuestion" class="form-control" [ngClass]="{ 'is-invalid': formFields.securityQuestion.touched && formFields.securityQuestion.errors }">
+                <option value="">Select Security Question</option>
+                <option *ngFor="let ques of SecurityQuestion" [value]="ques['questionId']">{{ ques['question'] }}</option>
+              </select>
+              <div *ngIf="formFields.securityQuestion.touched && formFields.securityQuestion.errors" class="invalid-feedback">
+                <div *ngIf="formFields.securityQuestion.errors.required">Security Question is Required</div>
+              </div>
+              </div>
+              <div class="col-xs-6 col-lg-6 col-md-6 col-xl-6"><input type="text" class="form-control" formControlName="securityAnswer" id = "securityAnswer" name="securityAnswer" placeholder="Security Answer" [ngClass]="{ 'is-invalid': formFields.securityAnswer.touched && formFields.securityAnswer.errors }">
+                <div *ngIf="formFields.securityAnswer.touched && formFields.securityAnswer.errors" class="invalid-feedback">
+                  <div *ngIf="formFields.securityAnswer.errors.required">Security Answer is Required</div>
+                </div>
+              </div>    
             </div>
-  
+            <div class="form-outline mb-4 row">
+              <div class="col-xs-8 col-lg-8 col-md-8 col-xl-8"><input type="email" class="form-control" id = "email" name="email" formControlName="email" placeholder="Enter Valid Email" [ngClass]="{ 'is-invalid': formFields.email.touched && formFields.email.errors }">
+                <div *ngIf="formFields.email.touched && formFields.email.errors" class="invalid-feedback">
+                  <div *ngIf="formFields.email.errors.required">Email is required</div>
+                  <div *ngIf="formFields.email.errors.pattern">Provide a valid mail</div>
+              </div>
+              </div>
+              <div class="col-xs-3 col-lg-3 col-md-3 col-xl-3"><button type="button" class="btn btn-link" (click)="validateEmailAddress()">ValidateEmailId?</button></div>
+            </div>
+            <div class="form-outline mb-4 row">
+              <div class="col-xs-8 col-lg-8 col-md-8 col-xl-8">
+              <select id="organizationName" name="organizationName" class="form-control" formControlName="organizationName" [ngClass]="{ 'is-invalid': formFields.organizationName.touched && formFields.organizationName.errors }">
+                <option value="">Select an Organization</option>
+                <option *ngFor="let org of OrganizationName" [value]="org['orgId']">{{ org['orgName'] }}</option>
+              </select>
+              <div *ngIf="formFields.organizationName.touched && formFields.organizationName.errors" class="invalid-feedback">
+                <div *ngIf="formFields.organizationName.errors.required">Organization Name is Required</div>
+              </div>
+              </div>
+              <div class="col-xs-3 col-lg-3 col-md-3 col-xl-3"><button type="button" class="btn btn-link" (click)="openSweetAlert()">RegisterNewOne?</button></div>
+            </div>
+            <div class="form-outline mb-4 row">
+              <div class="col-xs-12 col-lg-12 col-md-12 col-xl-12"><input type="password" class="form-control" name="password" placeholder="Enter Password" formControlName="password" [ngClass]="{ 'is-invalid': formFields.password.touched && formFields.password.errors }">
+                <div *ngIf="formFields.password.touched && formFields.password.errors" class="invalid-feedback">
+                  <div *ngIf="formFields.password.errors.required">Password is required</div>
+                  <div *ngIf="formFields.password.errors.pattern">Password must contain atleast 1 upper, lower, special, number and should have min length 8</div>
+              </div>
+              </div>
+            </div>
             <div class="text-center text-lg-start mt-4 pt-2">
               <button type="button" class="btn btn-primary btn-lg"
-                style="padding-left: 2.5rem; padding-right: 2.5rem;">SignUp</button>
+                style="padding-left: 2.5rem; padding-right: 2.5rem;" type="submit">SignUp</button>
               <p class="small fw-bold mt-2 pt-1 mb-0">Want to login? <a href="/login"
                   class="link-danger">SignIn</a></p>
             </div>
@@ -40,6 +86,7 @@
         </div>
       </div>
     </div>
+    <br><br><br>
     <div
       class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
       <div class="text-white mb-4 mb-md-0">

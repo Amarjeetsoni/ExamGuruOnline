@@ -13,3 +13,11 @@ height: calc(100% - 73px);
 height: 100%;
 }
 }
+.mat-error {
+  color: red;
+  font-size: 8px;
+}
+.tooltip-error {
+  background-color: #ff9999; /* Light red background color */
+  color: #990000; /* Dark red text color */
+}
