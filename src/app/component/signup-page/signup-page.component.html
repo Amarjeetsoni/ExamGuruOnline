@@ -7,7 +7,7 @@
         </div>
         <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
           <div class="align-items-center" style="align-items: center;">
-            <a href="/home"><img src="../../../assets/logo.png" alt="" style="width: 300px;height:75px;margin-left: 5vw;"></a>
+            <a href="/home"><img id = "centered-image" src="../../../assets/logo.png" alt="" ></a>
           </div>
           <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <div class="divider d-flex align-items-center my-4">
@@ -76,7 +76,7 @@
               </div>
             </div>
             <div class="text-center text-lg-start mt-4 pt-2">
-              <button type="button" class="btn btn-primary btn-lg"
+              <button type="button" class="btn btn-primary btn-lg" [disabled]="isButtonDisabled"
                 style="padding-left: 2.5rem; padding-right: 2.5rem;" type="submit">SignUp</button>
               <p class="small fw-bold mt-2 pt-1 mb-0">Want to login? <a href="/login"
                   class="link-danger">SignIn</a></p>

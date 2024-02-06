@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserData } from 'src/app/dataModel/UserData';
 import { LoginSignupServiceService } from 'src/app/services/login-signup-service.service';
 import swal from 'sweetalert';
@@ -13,11 +14,12 @@ import swal from 'sweetalert';
 export class SignupPageComponent implements OnInit {
 
   signupForm: FormGroup;
+  isButtonDisabled = false;
   Role = ['User', 'Organizer'];
   userData : UserData;
   OrganizationName: any; 
   SecurityQuestion: any;
-  constructor(private fb: FormBuilder, private loginSignupServiceService : LoginSignupServiceService) { 
+  constructor(private fb: FormBuilder, private loginSignupServiceService : LoginSignupServiceService, private router: Router) { 
     this.userData = new UserData();
     this.fetchAndLoadOrganizationList();
     this.loginSignupServiceService.getAllSecurityQuestions().subscribe((data)=>{
@@ -26,7 +28,7 @@ export class SignupPageComponent implements OnInit {
       swal("😣","No Security Question Registered!!, Please Contact to Admin to Register.","warning");
     });
     this.signupForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern(/^[A-Z][a-z]*$/)]],
+      name: ['', [Validators.required, Validators.pattern("^[A-Z][a-zA-Z ]*$")]],
       userRole: ['', Validators.required],
       securityQuestion: ['', Validators.required],
       securityAnswer: ['', Validators.required],
@@ -77,18 +79,23 @@ export class SignupPageComponent implements OnInit {
 
   onSubmit() {
     if (this.signupForm.valid) {
+      this.isButtonDisabled = true;
       this.userData.email = this.signupForm.controls.email.value;
       this.userData.name = this.signupForm.controls.name.value;
       this.userData.password = this.signupForm.controls.password.value;
       this.userData.securityAnswer = this.signupForm.controls.securityAnswer.value;
       this.userData.securityQuestionId = this.signupForm.controls.securityQuestion.value;
       this.userData.organizationId = this.signupForm.controls.organizationName.value;
+      this.userData.userRole = this.signupForm.controls.userRole.value;
       this.loginSignupServiceService.signup(this.userData).subscribe(
         response => {
           swal("😎", "Your account created successfully, you can Login with provided mail: " + this.signupForm.controls.email.value, "success")
+          this.isButtonDisabled = false;
+          this.router.navigate(['/login']);
         },
         error => {
           swal("☹️", error.error, "error");
+          this.isButtonDisabled = false;
         }
       );
     } else {
