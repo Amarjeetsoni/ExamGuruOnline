@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginData } from 'src/app/dataModel/LoginData';
-import { LoginSignupServiceService } from 'src/app/services/login-signup-service.service';
+import { AuthenticateServiceService } from 'src/app/services/authenticate-service.service';
 import swal from 'sweetalert';
 
 @Component({
@@ -13,7 +14,8 @@ export class LoginPageComponent implements OnInit {
 
   signInForm: FormGroup;
   logindata : LoginData;
-  constructor(private fb: FormBuilder, private loginSignupServiceService : LoginSignupServiceService) {
+  resp: any;
+  constructor(private fb: FormBuilder, private loginSignupServiceService : AuthenticateServiceService, private router: Router) {
     this.logindata = new LoginData();
     this.signInForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")]],
@@ -28,16 +30,7 @@ export class LoginPageComponent implements OnInit {
     if (this.signInForm.valid) {
       this.logindata.email = this.signInForm.controls.email.value;
       this.logindata.password = this.signInForm.controls.password.value;
-      this.loginSignupServiceService.signIn(this.logindata).subscribe(
-        response =>{
-          console.log(response);
-          swal("😎", "Login Successfull!!", "success");
-        },
-        error => {
-          swal("☹️", error.error, "warning");
-        }
-      )
-      
+      this.loginSignupServiceService.signIn(this.logindata);
     } else {
       swal("🙂", "Please Fill all input field with Valid inputs", "error");
     }

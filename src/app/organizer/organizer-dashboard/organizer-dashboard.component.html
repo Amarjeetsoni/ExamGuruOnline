@@ -1,0 +1,91 @@
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            
+
+        <nav class="navbar fixed-top flex-md-nowrap p-0 navbar-expand-lg navbar-light">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/Organizer">
+                <b>ExamGuruOnline</b>
+            </a>
+        </nav>
+        <hr>
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item main">
+                        <a class="nav-link" routerLink="/Organizer">
+                            <i class="fas fa-home"></i>&nbsp; Dashboard <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item main">
+                        <a class="nav-link" routerLink="/Organizer">
+                            <i class="fas fa-chalkboard-teacher"></i>&nbsp; Host A Test <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item main">
+                        <a class="nav-link" routerLink="/Organizer">
+                            <i class="far fa-edit"></i>&nbsp; Update Test <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item main">
+                        <a class="nav-link main" data-toggle="collapse" routerLink="/Organizer" >
+                            <i class="fab fa-expeditedssl"></i>&nbsp; Activate Test
+
+                        </a>
+                    </li>
+                    <li class="nav-item main">
+                        <a class="nav-link main" data-toggle="collapse" routerLink="/Organizer" >
+                            <i class="fas fa-theater-masks"></i>&nbsp; View Feedback
+
+                        </a>
+                    </li>
+                    <li class="nav-item main">
+                        <a class="nav-link main" data-toggle="collapse" routerLink="/Organizer" >
+                            <i class="fas fa-diagnoses"></i>&nbsp; View Result
+
+                        </a>
+                    </li>
+                    <li class="nav-item main">
+                        <a class="nav-link main" data-toggle="collapse" routerLink="/Organizer" >
+                            <i class="fas fa-crosshairs"></i>&nbsp; Reset Test
+
+                        </a>
+                    </li>
+                    <li class="nav-item main">
+                        <a class="nav-link main" data-toggle="collapse" routerLink="/Organizer" >
+                            <i class="fas fa-comment-dots"></i>&nbsp; Provide Feedback
+
+                        </a>
+                    </li>
+                    <li>
+                        <hr>
+                    </li>
+
+                    <li class="nav-item main">
+                        <a class="nav-link main" data-toggle="collapse" routerLink="/Organizer" >
+                            <i class="fas fa-user-circle"></i>&nbsp; Profile
+                        </a>
+                    </li>
+
+                    <li class="nav-item main">
+                        <a class="nav-link" routerLink="" (click)="logOut()">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>&nbsp; Log Out
+                        </a>
+                    </li>
+                    <li>
+                        <hr>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            <p><i class="fas fa-calendar-alt"></i> &nbsp;{{todaysDate | date}}</p>
+                            <p><i class="fas fa-clock"></i> &nbsp;{{todaysDate | date:'h:mm:ss a'}}</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>
