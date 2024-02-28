@@ -33,6 +33,13 @@ export class AuthenticateServiceService {
       }
     )
   }
+  decodeToken(){
+    var token = this.getToken();
+    if(token === null){
+      token = "";
+    }
+    return this.jwtHelper.decodeToken(token);
+  }
   setToken(token:string)
   {
     localStorage.setItem("token",token);

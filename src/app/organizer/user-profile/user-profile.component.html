@@ -1,0 +1,48 @@
+<marquee behavior="" direction="left" style="color: red;">Kindly make modifications exclusively to the fields for which data changes are necessary, and refrain from altering any other fields, keep the remaining fields unaltered.</marquee>
+<div class="bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-lg-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png"><span class="font-weight-bold">{{user.name}}</span><span class="text-black-50">{{user.email}}</span><span> </span></div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-lg-9 border-right">
+        <form [formGroup]="changePassword" (ngSubmit)="onSubmit()">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Update Profile</h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" name="name" id="name" formControlName="name" placeholder="First Name"></div>
+                    <div class="col-md-6"><label class="labels">Role</label><input type="text" class="form-control" value="" placeholder="Role" value={{user.userRole}} disabled></div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Organization Name</label>
+                        <input type="text" class="form-control" placeholder="Organization Name" value="Admin Name" value={{organizationName}} disabled>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Security Question</label>
+                        <select id="securityQuestion" name="securityQuestion" formControlName="securityQuestion" class="form-control">
+                            <option value="">Select Security Question</option>
+                            <option *ngFor="let ques of SecurityQuestion" [value]="ques['questionId']">{{ ques['question'] }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6"><label class="labels">Security Answer</label>
+                        <input type="text" class="form-control" formControlName="securityAnswer" id = "securityAnswer" name="securityAnswer" placeholder="Security Answer">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="labels">New Password</label>
+                        <input type="password" class="form-control" name="password" id="password" formControlName="password" placeholder="Provide New Password">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels">Confirm New Password</label>
+                        <input type="password" class="form-control" placeholder="Confirm New Password" name="confpassword" id="confpassword" formControlName="confpassword">
+                    </div>
+                </div>
+                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" type="submit">Update Profile</button></div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

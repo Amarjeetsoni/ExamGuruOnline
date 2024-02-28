@@ -4,7 +4,7 @@
             
 
         <nav class="navbar fixed-top flex-md-nowrap p-0 navbar-expand-lg navbar-light">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/Admin">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/Admin/dashboard">
                 <b>ExamGuruOnline</b>
             </a>
         </nav>
@@ -12,40 +12,40 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item main">
-                        <a class="nav-link" routerLink="/Admin">
+                        <a class="nav-link" routerLink="/Admin/dashboard">
                             <i class="fas fa-home"></i>&nbsp; Dashboard <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item main">
-                        <a class="nav-link" routerLink="/Admin">
+                        <a class="nav-link" routerLink="/Admin/userControl">
                             <i class="fas fa-user-friends"></i>&nbsp; User Control <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item main">
-                        <a class="nav-link" routerLink="/Admin">
+                        <a class="nav-link" routerLink="/Admin/testControl">
                             <i class="fas fa-edit"></i>&nbsp; Test Control <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item main">
-                        <a class="nav-link main" data-toggle="collapse" routerLink="/Admin" >
+                        <a class="nav-link main" data-toggle="collapse" routerLink="/Admin/organizationControl" >
                             <i class="fas fa-school"></i>&nbsp; Organization Control
 
                         </a>
                     </li>
                     <li class="nav-item main">
-                        <a class="nav-link main" data-toggle="collapse" routerLink="/Admin" >
+                        <a class="nav-link main" data-toggle="collapse" routerLink="/Admin/feedbackControl" >
                             <i class="fab fa-rocketchat"></i>&nbsp; Feedback Control
 
                         </a>
                     </li>
                     <li class="nav-item main">
-                        <a class="nav-link main" data-toggle="collapse" routerLink="/Admin" >
-                            <i class="fas fa-user-lock"></i>&nbsp; Security Question Control
+                        <a class="nav-link main" data-toggle="collapse" routerLink="/Admin/securityControl" >
+                            <i class="fas fa-user-lock"></i>&nbsp; Security Control
 
                         </a>
                     </li>
                     <li class="nav-item main">
-                        <a class="nav-link main" data-toggle="collapse" routerLink="/Admin" >
+                        <a class="nav-link main" data-toggle="collapse" routerLink="/Admin/questionControl" >
                             <i class="fas fa-clipboard-list"></i>&nbsp; Question Control
 
                         </a>
@@ -54,7 +54,7 @@
                         <hr>
                     </li>
                     <li class="nav-item main">
-                        <a class="nav-link main" data-toggle="collapse" routerLink="/Admin" >
+                        <a class="nav-link main" data-toggle="collapse" routerLink="/Admin/userProfile" >
                             <i class="fas fa-user-circle"></i>&nbsp; Profile
                         </a>
                     </li>
@@ -77,7 +77,7 @@
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-4">
             <router-outlet></router-outlet>
         </main>
     </div>

@@ -5,12 +5,15 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AdminRoutingModule } from "./admin-routing.module";
 import { AdminStatisticsComponent } from './admin-statistics/admin-statistics.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserData } from "../dataModel/UserData";
 
 
 @NgModule({
     declarations: [
     AdminDashboardComponent,
-    AdminStatisticsComponent
+    AdminStatisticsComponent,
+    UserProfileComponent
   ],
     imports: [
         CommonModule,
@@ -20,6 +23,7 @@ import { AdminStatisticsComponent } from './admin-statistics/admin-statistics.co
         AdminRoutingModule
       ]
       , providers:[
+        UserData
       ]
     })
 export class AdminModule { }

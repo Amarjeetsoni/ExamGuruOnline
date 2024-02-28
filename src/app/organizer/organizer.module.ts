@@ -5,12 +5,15 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { OrganizerDashboardComponent } from './organizer-dashboard/organizer-dashboard.component';
 import { OrganizerRoutingModule } from "./organizer-routing.module";
 import { OrganizerStatisticsComponent } from './organizer-statistics/organizer-statistics.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserData } from "../dataModel/UserData";
 
 
 @NgModule({
     declarations: [
     OrganizerDashboardComponent,
-    OrganizerStatisticsComponent
+    OrganizerStatisticsComponent,
+    UserProfileComponent
   ],
     imports: [
         CommonModule,
@@ -20,6 +23,7 @@ import { OrganizerStatisticsComponent } from './organizer-statistics/organizer-s
         OrganizerRoutingModule
       ]
       , providers:[
+        UserData
       ]
     })
 export class OrganizerModule { }

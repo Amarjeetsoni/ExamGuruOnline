@@ -43,5 +43,17 @@ export class LoginSignupServiceService {
     const url = this.apiUrl + '/user/changePassword';
     return this.http.put<any>(url, {"email": email, "password": password}, { responseType: 'text' as 'json' });
   }
+  getUserByEmail(email: String){
+    const url = this.apiUrl + '/user/getUser?email=' + email;
+    return this.http.get<any>(url);
+  }
+  updateUserDetails(user: UserData){
+    const url = this.apiUrl + "/user/updateUser";
+    return this.http.put<any>(url, user, {responseType: 'text' as 'json'});
+  }
+  getOrganizationNameById(id: any){
+    const url = this.apiUrl + "/org/getOrg?id=" + id;
+    return this.http.get<any>(url);
+  }
 
 }
