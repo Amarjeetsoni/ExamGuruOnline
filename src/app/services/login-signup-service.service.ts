@@ -8,7 +8,7 @@ import { LoginData } from '../dataModel/LoginData';
 })
 export class LoginSignupServiceService {
   private apiUrl = 'https://examguruonline.onrender.com';
-  
+  //https://examguruonline.onrender.com
   constructor(private http : HttpClient) { }
 
   saveOrganization(organization : String){

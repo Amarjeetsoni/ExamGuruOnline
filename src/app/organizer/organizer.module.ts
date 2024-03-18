@@ -7,13 +7,17 @@ import { OrganizerRoutingModule } from "./organizer-routing.module";
 import { OrganizerStatisticsComponent } from './organizer-statistics/organizer-statistics.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserData } from "../dataModel/UserData";
+import { QuestionUpsertComponent } from './question-upsert/question-upsert.component';
+import { TestUpsertComponent } from './test-upsert/test-upsert.component';
 
 
 @NgModule({
     declarations: [
     OrganizerDashboardComponent,
     OrganizerStatisticsComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    QuestionUpsertComponent,
+    TestUpsertComponent
   ],
     imports: [
         CommonModule,
