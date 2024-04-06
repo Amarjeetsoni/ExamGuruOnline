@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserData } from '../dataModel/UserData';
 import { LoginData } from '../dataModel/LoginData';
+import { Question } from '../organizer/question-upsert/question-upsert.component';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,21 @@ export class LoginSignupServiceService {
   getOrganizationNameById(id: any){
     const url = this.apiUrl + "/org/getOrg?id=" + id;
     return this.http.get<any>(url);
+  }
+
+  saveQuestionCategory(name: any){
+    const url = this.apiUrl + "/addCat?catDesc=" + name;
+    return this.http.get<any>(url);
+  }
+
+  getAllQuestionCategory(){
+    const url = this.apiUrl + "/getCatAllCat";
+    return this.http.get<any>(url);
+  }
+
+  RegisterAQuestion(question: Question){
+    const url = this.apiUrl + "/addQuestion";
+    return this.http.post<any>(url, question, { responseType: 'text' as 'json' });
   }
 
 }
