@@ -4,7 +4,7 @@
     <!-- Filter input -->
     <div class="form-outline mb-4 row">
         <div class="col-xs-3 col-lg-3 col-md-3 col-xl-3">
-            <input class="form-control" type="text" [formControl]="createdByUserFilter" placeholder="Filter by CreatedByUser">
+            <input class="form-control" type="text" [(ngModel)]="createdByUserFilter" placeholder="Filter by CreatedByUser">
         </div>
         <div class="col-xs-3 col-lg-3 col-md-3 col-xl-3">
             <select [(ngModel)]="filterType" (change)="onFilterTypeChange()" class="form-control">
@@ -26,26 +26,27 @@
         <tr>
           <th>Question</th>
           <th>Options</th>
-          <th>Category ID</th>
+          <th>Category Name</th>
           <th>Created By User</th>
           <th>Actions</th>
         </tr>
       </thead>
       <!-- Table body -->
-      <tbody>
+      <tbody *ngIf="filteredQuestions.length !== 0">
         <tr *ngFor="let question of filteredQuestions">
           <!-- Display question details -->
           <td>{{ question.question }}</td>
           <td>{{ question.questionOption.join('; ') }}</td>
-          <td>{{ question.questionCategoryId }}</td>
+          <td>{{ question.categoryDesc }}</td>
           <td>{{ question.createdByUser }}</td>
           <td>
-            <button class="btn btn-info" (click)="viewDetails(question)" [disabled]="isPopupOpen">View Details</button>
-            <button class="btn btn-warning" (click)="updateDetails(question)" [disabled]="isPopupOpen">Update</button>
+            <button class="btn btn-light" (click)="viewDetails(question)" [disabled]="isPopupOpen">View Question</button>
+            <button class="btn btn-info" (click)="updateDetails(question)" [disabled]="isPopupOpen || question.isUpdateEnabled">Update Details</button>
           </td>
         </tr>
       </tbody>
     </table>
+    <div *ngIf="filteredQuestions.length === 0" class="alert alert-info">No questions details found.</div>
   </div>
   <div class="popup" *ngIf="isPopupOpen">
     <div class="popup-content">

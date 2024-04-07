@@ -11,11 +11,11 @@ import swal from 'sweetalert';
   styleUrls: ['./question-upsert.component.css']
 })
 export class QuestionUpsertComponent implements OnInit {
-
-  createdByUserFilter = new FormControl('');
+  createdByUserFilter: string = '';
   allQuestionCategory: any;
   filterType = 'all';
   filteredQuestions: Question[] = [];
+  AllQuestions: Question[] = [];
   isMultipleChoise: boolean = false;
   isPopupOpen = false;
   addOrUpdateQuestion: FormGroup;
@@ -61,30 +61,20 @@ export class QuestionUpsertComponent implements OnInit {
             swal("🤨", error.error, "error");
           }
         );
-
+        this.refressQuestionList();
       },
       error => {
         swal("🤨", "Not able to fetch Details of Provided Mail", "error");
       });
-
-    const question = new Question();
-    question.question = "What is your name, Please select from the Details";
-    question.correctOption = ['SomeName', 'Name', 'kuch Name'];
-    question.questionOption = ['someName', 'name', 'some', 'kabhi', 'kuch'];
-    question.createdByUser = 'Some@gmail.com';
-    question.isMultipleChoice = true;
-    question.organizationId = 10;
-    question.questionCategoryId = 12;
-    const question1 = new Question();
-    question1.question = "What is your name, Please select from the Details";
-    question1.correctOption = ['SomeName', 'Name', 'kuch Name'];
-    question1.questionOption = ['someName', 'name', 'some', 'kabhi', 'kuch'];
-    question1.createdByUser = 'Some@gmail.com';
-    question1.isMultipleChoice = true;
-    question1.organizationId = 10;
-    question1.questionCategoryId = 12;
-    this.filteredQuestions = [question, question1];
-
+  }
+  getCategoryDesc(arg0: number) {
+    console.log("CategoryId: " + arg0);
+    for(let i = 0; i < this.allQuestionCategory.length; i++){
+      if(this.allQuestionCategory[i]['categoryId'] === arg0){
+        return this.allQuestionCategory[i]['categoryDesc'];
+      }
+      return "NA";
+    }
   }
 
   createOption(): FormControl {
@@ -94,15 +84,17 @@ export class QuestionUpsertComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  applyFilter() {
-    const filterValue = this.createdByUserFilter.value.toLowerCase();
-    console.log("Filtered Value");
-  }
 
   onFilterTypeChange() {
-    // Implement your logic when the filter type changes
-    // For example, fetch updated data based on the selected filter
     console.log('Filter type changed to:', this.filterType);
+    if(this.filterType == "user"){
+      this.filteredQuestions = this.filteredQuestions.filter(question => {
+        return question.createdByUser === this.user.email
+      });
+    }
+    if(this.filterType == "organization" || this.filterType == "all"){
+      this.filteredQuestions = this.AllQuestions;
+    }
   }
   onSubmit() {
     if (this.addOrUpdateQuestion.controls.questionCategory.valid) {
@@ -144,6 +136,7 @@ export class QuestionUpsertComponent implements OnInit {
             (response) => {
               swal("😁", "Question Added Successfully!!", "success");
               this.isPopupOpen = false;
+              this.refressQuestionList();
             },
             (error) => {
               swal("😏", error.error, "error");
@@ -165,6 +158,25 @@ export class QuestionUpsertComponent implements OnInit {
     }
   }
 
+  refressQuestionList(){
+    this.loginsignup.getQuestionsByOrdhanizationId(this.user.organizationId, this.user.email).subscribe(
+      response => {
+        this.filteredQuestions = response;
+        console.log("All Category: " + this.allQuestionCategory[0]['categoryDesc'])
+        this.filteredQuestions.forEach(question => {
+          const category = this.allQuestionCategory.find((cat: { categoryId: number; }) => cat.categoryId === question.questionCategoryId);
+          question.categoryDesc = category ? category.categoryDesc : "NA";
+        });
+        this.filteredQuestions.forEach(question =>{
+          question.isUpdateEnabled = question.correctOption != null ? false : true;
+        });
+        this.AllQuestions = this.filteredQuestions;
+      },
+      error => {
+        swal("🤨", error.error, "error");
+      }
+    );
+  }
   viewDetails(question: Question) {
     console.log(question);
   }
@@ -208,7 +220,13 @@ export class QuestionUpsertComponent implements OnInit {
   }
 
   createdByUserFilterDetails() {
-    console.log();
+    if(this.createdByUserFilter === '' || this.createdByUserFilter.trim().length == 0){
+      return;
+    }
+    this.filteredQuestions = this.AllQuestions.filter(question => {
+      return question.createdByUser == this.createdByUserFilter;
+    })
+    // console.log("Created By Filter UserDetails : " + this.createdByUserFilter);
   }
 }
 
@@ -221,6 +239,8 @@ export class Question {
   createdByUser: string = '';
   organizationId: number = 0;
   isMultipleChoice: boolean = false;
+  categoryDesc: string = '';
+  isUpdateEnabled: boolean = false;
 }
 
 

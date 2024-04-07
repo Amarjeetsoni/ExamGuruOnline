@@ -58,7 +58,8 @@ export class LoginSignupServiceService {
   }
 
   saveQuestionCategory(name: any){
-    const url = this.apiUrl + "/addCat?catDesc=" + name;
+    const encodedCatDesc = encodeURIComponent(name);
+    const url = this.apiUrl + "/addCat?catDesc=" + encodedCatDesc;
     return this.http.get<any>(url);
   }
 
@@ -70,6 +71,11 @@ export class LoginSignupServiceService {
   RegisterAQuestion(question: Question){
     const url = this.apiUrl + "/addQuestion";
     return this.http.post<any>(url, question, { responseType: 'text' as 'json' });
+  }
+
+  getQuestionsByOrdhanizationId(organizationId: any, currentUser: any){
+    const url = this.apiUrl + "/getAllQuestionByOrgId?orgId="+organizationId+"&currUserId="+currentUser;
+    return this.http.get<any>(url);
   }
 
 }
