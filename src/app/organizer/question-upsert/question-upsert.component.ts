@@ -11,6 +11,7 @@ import swal from 'sweetalert';
   styleUrls: ['./question-upsert.component.css']
 })
 export class QuestionUpsertComponent implements OnInit {
+
   createdByUserFilter: string = '';
   allQuestionCategory: any;
   filterType = 'all';
@@ -20,12 +21,20 @@ export class QuestionUpsertComponent implements OnInit {
   isPopupOpen = false;
   addOrUpdateQuestion: FormGroup;
   organizationName: any;
+  viewQuestion: boolean = false;
+  selectedQuestion: Question = new Question();
+  updatePageOpened: boolean = false;
   openPopup() {
     this.isPopupOpen = true;
   }
 
   closePopup() {
     this.isPopupOpen = false;
+    this.updatePageOpened = false;
+  }
+
+  CloseViewQuestion() {
+    this.viewQuestion = false;
   }
 
   get options() {
@@ -38,7 +47,9 @@ export class QuestionUpsertComponent implements OnInit {
   removeOption(index: number) {
     this.options.removeAt(index);
   }
-
+  UpdateQuestionDetailsMethod(){
+    window.alert("Update Method Called");
+  }
 
   constructor(private fb: FormBuilder, public user: UserData, private auth: AuthenticateServiceService, private loginsignup: LoginSignupServiceService) {
     this.addOrUpdateQuestion = this.fb.group({
@@ -88,7 +99,7 @@ export class QuestionUpsertComponent implements OnInit {
   onFilterTypeChange() {
     console.log('Filter type changed to:', this.filterType);
     if(this.filterType == "user"){
-      this.filteredQuestions = this.filteredQuestions.filter(question => {
+      this.filteredQuestions = this.AllQuestions.filter(question => {
         return question.createdByUser === this.user.email
       });
     }
@@ -125,13 +136,12 @@ export class QuestionUpsertComponent implements OnInit {
             }
            const questionToRegister = new Question();
            questionToRegister.createdByUser = this.user.email;
-           questionToRegister.isMultipleChoice = this.addOrUpdateQuestion.controls.isMultipleChoise.value;
+           questionToRegister.isMultipleChoise = this.addOrUpdateQuestion.controls.isMultipleChoise.value;
            questionToRegister.correctOption = correctOptions;
            questionToRegister.questionOption = this.addOrUpdateQuestion.controls.options.value;
            questionToRegister.question = this.addOrUpdateQuestion.controls.question.value;
            questionToRegister.questionCategoryId = this.addOrUpdateQuestion.controls.questionCategory.value;
            questionToRegister.organizationId = this.user.organizationId;
-           console.log(questionToRegister);
            this.loginsignup.RegisterAQuestion(questionToRegister).subscribe(
             (response) => {
               swal("😁", "Question Added Successfully!!", "success");
@@ -161,27 +171,41 @@ export class QuestionUpsertComponent implements OnInit {
   refressQuestionList(){
     this.loginsignup.getQuestionsByOrdhanizationId(this.user.organizationId, this.user.email).subscribe(
       response => {
-        this.filteredQuestions = response;
+        this.AllQuestions = response;
         console.log("All Category: " + this.allQuestionCategory[0]['categoryDesc'])
-        this.filteredQuestions.forEach(question => {
+        this.AllQuestions.forEach(question => {
           const category = this.allQuestionCategory.find((cat: { categoryId: number; }) => cat.categoryId === question.questionCategoryId);
           question.categoryDesc = category ? category.categoryDesc : "NA";
         });
-        this.filteredQuestions.forEach(question =>{
+        this.AllQuestions.forEach(question =>{
           question.isUpdateEnabled = question.correctOption != null ? false : true;
         });
-        this.AllQuestions = this.filteredQuestions;
+        console.log(this.AllQuestions);
+        this.filteredQuestions = this.AllQuestions;
       },
       error => {
         swal("🤨", error.error, "error");
       }
     );
   }
-  viewDetails(question: Question) {
-    console.log(question);
+  viewDetails(question: any) {
+    this.viewQuestion = true;
+    this.selectedQuestion = question;
+    this.selectedQuestion.isMultipleChoise = question.multipleChoise;
   }
-  updateDetails(question: Question) {
-    console.log(question);
+  updateDetails(question: any) {
+    this.addOrUpdateQuestion.controls.question.setValue(question.question);
+    this.addOrUpdateQuestion.controls.questionCategory.setValue(question.questionCategoryId);
+    this.addOrUpdateQuestion.controls.isMultipleChoise.setValue(question.multipleChoise);
+    this.addOrUpdateQuestion.controls.Correct_Options.setValue(question.correctOption.join(' '));
+    this.options.clear();
+    for(let i = 0; i < question.questionOption.length; i++){
+      this.options.push(this.createOption());
+    }
+    this.addOrUpdateQuestion.controls.options.setValue(question.questionOption);
+    // console.log(question);
+    this.updatePageOpened = true;
+    this.isPopupOpen = true;
   }
 
   addNewQuestionCategoryName(): void {
@@ -221,12 +245,12 @@ export class QuestionUpsertComponent implements OnInit {
 
   createdByUserFilterDetails() {
     if(this.createdByUserFilter === '' || this.createdByUserFilter.trim().length == 0){
+      this.filteredQuestions = this.AllQuestions;
       return;
     }
     this.filteredQuestions = this.AllQuestions.filter(question => {
       return question.createdByUser == this.createdByUserFilter;
     })
-    // console.log("Created By Filter UserDetails : " + this.createdByUserFilter);
   }
 }
 
@@ -238,7 +262,7 @@ export class Question {
   questionCategoryId: number = 0;
   createdByUser: string = '';
   organizationId: number = 0;
-  isMultipleChoice: boolean = false;
+  isMultipleChoise: boolean = false;
   categoryDesc: string = '';
   isUpdateEnabled: boolean = false;
 }

@@ -17,7 +17,7 @@
             <button type="button" class="btn btn-info" (click)="createdByUserFilterDetails()">Filter Question</button>
         </div>
         <div class="col-xs-3 col-lg-3 col-md-3 col-xl-3">
-            <button type="button" class="btn btn-link" (click)="openPopup()" [disabled]="isPopupOpen"><i class = "fa fa-plus-square"></i> Add New Question</button>
+            <button type="button" class="btn btn-link" (click)="openPopup()" [disabled]="isPopupOpen || viewQuestion"><i class = "fa fa-plus-square"></i> Add New Question</button>
         </div>
     </div>
     <table class="table table-striped">
@@ -40,8 +40,8 @@
           <td>{{ question.categoryDesc }}</td>
           <td>{{ question.createdByUser }}</td>
           <td>
-            <button class="btn btn-light" (click)="viewDetails(question)" [disabled]="isPopupOpen">View Question</button>
-            <button class="btn btn-info" (click)="updateDetails(question)" [disabled]="isPopupOpen || question.isUpdateEnabled">Update Details</button>
+            <button class="btn btn-light" (click)="viewDetails(question)" [disabled]="isPopupOpen || viewQuestion">View Question</button>
+            <button class="btn btn-info" (click)="updateDetails(question)" [disabled]="isPopupOpen || question.isUpdateEnabled || viewQuestion">Update Details</button>
           </td>
         </tr>
       </tbody>
@@ -104,7 +104,76 @@
                     <textarea class="form-control" type="text"
                       formControlName="Correct_Options" placeholder="If Multiple Options are correct provide option number spearted with Space..."></textarea>
                   </div>
-                  <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" type="submit">Add Question</button></div>
+                  <div class="mt-5 text-center">
+                    <button class="btn btn-primary profile-button" type="button" type="submit" *ngIf="!updatePageOpened">Add Question</button>
+                    <button class="btn btn-success profile-button" type="button" (click)="UpdateQuestionDetailsMethod()" *ngIf="updatePageOpened">Update Question</button>
+                  </div>
+              </div>
+          </form>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="popup" *ngIf="viewQuestion">
+    <div class="popup-content">
+      <button class="btn btn-link close-button" (click)="CloseViewQuestion()"><i class="fa fa-close"></i></button>
+      <h4 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color: #3498db; text-align: center;"><u>Add/Update Question</u></h4>
+      <div class="bg-white">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+          <form>
+              <div class="p-3 py-5">
+                  <div class="row mt-3">
+                        <textarea class="form-control" value={{selectedQuestion.question}} disabled></textarea>
+                  </div>
+                  <div class="row mt-3">
+                      <div class="row-5">
+                        <label class="labels">Category : </label> &nbsp;&nbsp;&nbsp;
+                      </div>
+                      <div class= "row-6">
+                       <input type="text" class="form-control" value={{selectedQuestion.categoryDesc}} disabled>
+                      </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div>
+                        <div *ngFor="let option of selectedQuestion.questionOption; let i = index" class="row mt-3">
+                            <div class="col-5">
+                                <i>Option {{i+1}}: </i>
+                            </div>
+                            <div class="col-7">
+                                <textarea class="form-control" value={{option}} disabled></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <div class="row mt-3">
+                    <div class="row-5">
+                      <label class="labels">Org Name : </label> &nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div class= "row-6">
+                      <input type="text" class="form-control" placeholder="Organization Name" value={{organizationName}} disabled>
+                  
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="row-5">
+                      <label class="labels">Added by : </label> &nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div class= "row-6">
+                    <input type="text" class="form-control" placeholder="By User" value={{selectedQuestion.createdByUser}} disabled>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <label class="labels" *ngIf="this.selectedQuestion.isMultipleChoise"><i class = "fa fa-check-square" style="font-size:24px;"></i></label>
+                    <label class="labels" *ngIf="!this.selectedQuestion.isMultipleChoise"><i class = "fa fa-square" style="font-size:24px; color: gainsboro;"></i></label>
+                     &nbsp;&nbsp;&nbsp;
+                    <label class="labels">IsMultiple Choise</label>
+                  </div>
+                  <div class="row mt-3">
+                    <label class="labels">Correct Options</label>&nbsp;&nbsp;&nbsp;
+                    <textarea class="form-control" type="text" value={{selectedQuestion.correctOption}} disabled></textarea>
+                  </div>
+                  <div class="mt-5 text-center"><button class="btn btn-warning profile-button" type="button" (click)="CloseViewQuestion()">Close</button></div>
               </div>
           </form>
           </div>
