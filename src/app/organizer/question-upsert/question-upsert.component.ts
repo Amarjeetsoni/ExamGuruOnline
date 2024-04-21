@@ -5,6 +5,7 @@ import { AuthenticateServiceService } from 'src/app/services/authenticate-servic
 import { LoginSignupServiceService } from 'src/app/services/login-signup-service.service';
 import swal from 'sweetalert';
 
+
 @Component({
   selector: 'app-question-upsert',
   templateUrl: './question-upsert.component.html',
@@ -24,6 +25,7 @@ export class QuestionUpsertComponent implements OnInit {
   viewQuestion: boolean = false;
   selectedQuestion: Question = new Question();
   updatePageOpened: boolean = false;
+
   openPopup() {
     this.isPopupOpen = true;
   }
@@ -46,9 +48,6 @@ export class QuestionUpsertComponent implements OnInit {
 
   removeOption(index: number) {
     this.options.removeAt(index);
-  }
-  UpdateQuestionDetailsMethod(){
-    window.alert("Update Method Called");
   }
 
   constructor(private fb: FormBuilder, public user: UserData, private auth: AuthenticateServiceService, private loginsignup: LoginSignupServiceService) {
@@ -79,7 +78,6 @@ export class QuestionUpsertComponent implements OnInit {
       });
   }
   getCategoryDesc(arg0: number) {
-    console.log("CategoryId: " + arg0);
     for(let i = 0; i < this.allQuestionCategory.length; i++){
       if(this.allQuestionCategory[i]['categoryId'] === arg0){
         return this.allQuestionCategory[i]['categoryDesc'];
@@ -97,7 +95,6 @@ export class QuestionUpsertComponent implements OnInit {
   }
 
   onFilterTypeChange() {
-    console.log('Filter type changed to:', this.filterType);
     if(this.filterType == "user"){
       this.filteredQuestions = this.AllQuestions.filter(question => {
         return question.createdByUser === this.user.email
@@ -108,32 +105,9 @@ export class QuestionUpsertComponent implements OnInit {
     }
   }
   onSubmit() {
-    if (this.addOrUpdateQuestion.controls.questionCategory.valid) {
-      if (this.addOrUpdateQuestion.controls.question.valid) {
-        if (this.addOrUpdateQuestion.controls.options.valid) {
-          console.log(this.addOrUpdateQuestion.controls.options.value);
-          if (this.addOrUpdateQuestion.controls.Correct_Options.valid) {
-            const optionString = this.addOrUpdateQuestion.controls.Correct_Options.value;
-            const correctOptions = optionString.trim().split(" ");
-            if (correctOptions.length > 1 && !this.addOrUpdateQuestion.controls.isMultipleChoise.value) {
-              swal("🙄", "You Provided multiple correct Options, but didn't have selected IsMutipleChoise button. Please revalidate !!", "error");
-              return;
-            }
-            if (correctOptions.length == 1 && this.addOrUpdateQuestion.controls.isMultipleChoise.value) {
-              swal("🙄", "You Provided single Correct Options, but have selected IsMutipleChoise button. Please revalidate !!", "error");
-              return;
-            }
-            for(let i = 0; i < correctOptions.length; i++){
-              const number = parseInt(correctOptions[i], 10);
-              if (isNaN(number)) {
-                swal("😕", "Provided Correct Option is invalid, Please add option number sperated by Space to Proceed!!","error");
-                return;
-              }
-              if(number > this.addOrUpdateQuestion.controls.options.value.length || number <= 0){
-                swal("😕", "Provided Option should be in between Total Number if Option entered and should be greater than 0","error");
-                return;
-              }
-            }
+    if (this.validateAddOrUpdateQuestionInput()) {
+      const optionString = this.addOrUpdateQuestion.controls.Correct_Options.value;
+      const correctOptions = optionString.trim().split(" ");
            const questionToRegister = new Question();
            questionToRegister.createdByUser = this.user.email;
            questionToRegister.isMultipleChoise = this.addOrUpdateQuestion.controls.isMultipleChoise.value;
@@ -151,28 +125,60 @@ export class QuestionUpsertComponent implements OnInit {
             (error) => {
               swal("😏", error.error, "error");
             })
+          }
+  }
 
+  validateAddOrUpdateQuestionInput() : any{
+    if (this.addOrUpdateQuestion.controls.questionCategory.valid) {
+      if (this.addOrUpdateQuestion.controls.question.valid && this.addOrUpdateQuestion.controls.question.value.trim().length > 0) {
+        if (this.addOrUpdateQuestion.controls.options.valid) {
+          if (this.addOrUpdateQuestion.controls.Correct_Options.valid) {
+            const optionString = this.addOrUpdateQuestion.controls.Correct_Options.value;
+            const correctOptions = optionString.trim().split(" ");
+            if (correctOptions.length > 1 && !this.addOrUpdateQuestion.controls.isMultipleChoise.value) {
+              swal("🙄", "You Provided multiple correct Options, but didn't have selected IsMutipleChoise button. Please revalidate !!", "error");
+              return false;
+            }
+            if (correctOptions.length == 1 && this.addOrUpdateQuestion.controls.isMultipleChoise.value) {
+              swal("🙄", "You Provided single Correct Options, but have selected IsMutipleChoise button. Please revalidate !!", "error");
+              return false;
+            }
+            for(let i = 0; i < correctOptions.length; i++){
+              const number = parseInt(correctOptions[i], 10);
+              if (isNaN(number)) {
+                swal("😕", "Provided Correct Option is invalid, Please add option number sperated by Space to Proceed!!","error");
+                return false;
+              }
+              if(number > this.addOrUpdateQuestion.controls.options.value.length || number <= 0){
+                swal("😕", "Provided Option should be in between Total Number if Option entered and should be greater than 0","error");
+                return false;
+              }
+            }
           } else {
             swal("🙄", "Please provide correct Option number!!", "error");
+            return false;
           }
         } else {
-          swal("🙄", "Please Fill Options you have added else remove it !!", "error");
+          swal("🙄", "Please include only the necessary options. If an option is not required, please remove it and try again.", "error");
+          return false;
         }
 
       } else {
         swal("🙄", "Please fill Question Field properly!!", "error");
+        return false;
       }
 
     } else {
       swal("🙄", "Please provide valid Question Category!!", "error");
+      return false;
     }
+    return true;
   }
 
   refressQuestionList(){
     this.loginsignup.getQuestionsByOrdhanizationId(this.user.organizationId, this.user.email).subscribe(
       response => {
         this.AllQuestions = response;
-        console.log("All Category: " + this.allQuestionCategory[0]['categoryDesc'])
         this.AllQuestions.forEach(question => {
           const category = this.allQuestionCategory.find((cat: { categoryId: number; }) => cat.categoryId === question.questionCategoryId);
           question.categoryDesc = category ? category.categoryDesc : "NA";
@@ -180,7 +186,6 @@ export class QuestionUpsertComponent implements OnInit {
         this.AllQuestions.forEach(question =>{
           question.isUpdateEnabled = question.correctOption != null ? false : true;
         });
-        console.log(this.AllQuestions);
         this.filteredQuestions = this.AllQuestions;
       },
       error => {
@@ -195,7 +200,7 @@ export class QuestionUpsertComponent implements OnInit {
   }
   updateDetails(question: any) {
     this.addOrUpdateQuestion.controls.question.setValue(question.question);
-    this.addOrUpdateQuestion.controls.questionCategory.setValue(question.questionCategoryId);
+    this.addOrUpdateQuestion.controls.questionCategory.setValue(question.questionCategoryId.toString());
     this.addOrUpdateQuestion.controls.isMultipleChoise.setValue(question.multipleChoise);
     this.addOrUpdateQuestion.controls.Correct_Options.setValue(question.correctOption.join(' '));
     this.options.clear();
@@ -203,9 +208,46 @@ export class QuestionUpsertComponent implements OnInit {
       this.options.push(this.createOption());
     }
     this.addOrUpdateQuestion.controls.options.setValue(question.questionOption);
-    // console.log(question);
     this.updatePageOpened = true;
     this.isPopupOpen = true;
+    this.selectedQuestion = question;
+    this.selectedQuestion.isMultipleChoise = question.multipleChoise;
+  }
+  UpdateQuestionDetailsMethod(){
+    const optionString = this.addOrUpdateQuestion.controls.Correct_Options.value;
+    const correctOptions = optionString.trim().split(" ");
+    const areEqual1: boolean = correctOptions.length === this.selectedQuestion.correctOption.length &&
+  correctOptions.every((value: any, index: string | any) => value === this.selectedQuestion.correctOption[index]);
+    if(this.addOrUpdateQuestion.controls.question.value === this.selectedQuestion.question &&
+      this.addOrUpdateQuestion.controls.questionCategory.value === this.selectedQuestion.questionCategoryId.toString() &&
+      this.addOrUpdateQuestion.controls.isMultipleChoise.value === this.selectedQuestion.isMultipleChoise &&
+      areEqual1 &&
+      this.addOrUpdateQuestion.controls.options.value.length === this.selectedQuestion.questionOption.length &&
+      JSON.stringify(this.addOrUpdateQuestion.controls.options.value) === JSON.stringify(this.selectedQuestion.questionOption)){
+        swal("😏", "You didn't have made any changes! Please make some Change to Proceed!!","warning");
+        return;
+    }
+
+    if(this.validateAddOrUpdateQuestionInput()){
+           const questionToRegister = new Question();
+           questionToRegister.createdByUser = this.user.email;
+           questionToRegister.isMultipleChoise = this.addOrUpdateQuestion.controls.isMultipleChoise.value;
+           questionToRegister.correctOption = correctOptions;
+           questionToRegister.questionOption = this.addOrUpdateQuestion.controls.options.value;
+           questionToRegister.question = this.addOrUpdateQuestion.controls.question.value;
+           questionToRegister.questionCategoryId = this.addOrUpdateQuestion.controls.questionCategory.value;
+           questionToRegister.organizationId = this.user.organizationId;
+           questionToRegister.questionID = this.selectedQuestion.questionID;
+           this.loginsignup.updateQuestionDetailsByQuestionId(questionToRegister).subscribe(
+            (response) => {
+              swal("😁", "Question Updated Successfully!!", "success");
+              this.closePopup();
+              this.refressQuestionList();
+            },
+            (error) => {
+              swal("😏", error.error, "error");
+            })
+    }
   }
 
   addNewQuestionCategoryName(): void {
@@ -220,14 +262,12 @@ export class QuestionUpsertComponent implements OnInit {
       },
     }).then((value) => {
       if (value) {
-        console.log(value);
         this.loginsignup.saveQuestionCategory(value).subscribe(
           (response) => {
             swal("😁", "Category added !!", "success");
             this.fetchAndLoadNewCategoryList();
           },
           (error) => {
-            console.log(error.error);
             swal("😏", error.error, "error");
           })
       } else {
@@ -256,6 +296,7 @@ export class QuestionUpsertComponent implements OnInit {
 
 
 export class Question {
+  questionID: number = 0;
   question: string = '';
   questionOption: string[] = [];
   correctOption: string[] = [];

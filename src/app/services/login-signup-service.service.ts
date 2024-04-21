@@ -78,4 +78,9 @@ export class LoginSignupServiceService {
     return this.http.get<any>(url);
   }
 
+  updateQuestionDetailsByQuestionId(question: Question){
+    const url = this.apiUrl + "/updateQuestion";
+    return this.http.put<any>(url, question, { responseType: 'text' as 'json' });
+  }
+
 }
