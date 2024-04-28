@@ -1,2 +1,147 @@
 <h3 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color: #3498db; text-align: center;"><u>TEST HANDLER</u></h3>
 <hr>
+<div class="form-steps">
+    <ul class="row steps">
+        <li class="gap" ></li>
+        <li *ngIf="currentStep <= 1">
+            <div class="step-box">
+              <i class="fas fa-circle" *ngIf="currentStep != 1"></i>
+              <i class="fa fa-map-signs" *ngIf="currentStep == 1" style="color: yellowgreen;font-size: 40px;"></i>
+              <span style="font-weight: bold;">Instruction</span>
+            </div>
+          </li>
+          <li *ngIf="currentStep > 1">
+            <div class="step-box">
+              <i class="fas fa-check-circle"></i>
+              <span style="color: rgb(250, 0, 0);">Instruction</span>
+            </div>
+          </li>
+          <li class="gap"></li>
+          <li class="gap"></li>
+          <li class="gapnew"></li>
+          <li *ngIf="currentStep <= 2">
+            <div class="step-box">
+              <i class="fas fa-circle" *ngIf="currentStep != 2"></i>
+              <i class="fa fa-map-signs" *ngIf="currentStep == 2" style="color: yellowgreen;font-size: 40px;"></i>
+              <span style="font-weight: bold;" *ngIf="currentStep == 2">Basic Details</span>
+              <span *ngIf="currentStep != 2">Basic Details</span>
+            </div>
+          </li>
+          <li *ngIf="currentStep > 2">
+            <div class="step-box">
+              <i class="fas fa-check-circle"></i>
+              <span style="color: rgb(250, 0, 0);">Basic Details</span>
+            </div>
+          </li>
+          <li class="gap" ></li>
+          <li class="gap"></li>
+          <li class="gapnew" ></li>
+          <li *ngIf="currentStep <= 3">
+            <div class="step-box">
+              <i class="fa fa-map-signs" *ngIf="currentStep == 3" style="color: yellowgreen;font-size: 40px;"></i>
+              <i class="fas fa-circle" *ngIf="currentStep != 3"></i>
+              <span *ngIf="currentStep != 3">Select Question</span>
+              <span style="font-weight: bold;" *ngIf="currentStep == 3">Select Question</span>
+            </div>
+          </li>
+          <li *ngIf="currentStep > 3">
+            <div class="step-box">
+              <i class="fas fa-check-circle"></i>
+              <span style="color: rgb(250, 0, 0);">Select Question</span>
+            </div>
+          </li>
+          <li class="gap" ></li>
+          <li class="gap"></li>
+          <li class="gapnew"></li>
+
+          <li *ngIf="currentStep <= 4">
+            <div class="step-box">
+              <i class="fa fa-map-signs" *ngIf="currentStep == 4" style="color: yellowgreen;font-size: 40px;"></i>
+              <i class="fas fa-circle" *ngIf="currentStep != 4"></i>
+              <span *ngIf="currentStep != 4">Review</span>
+              <span style="font-weight: bold;" *ngIf="currentStep == 4">Review</span>
+            </div>
+          </li>
+          <li *ngIf="currentStep > 4">
+            <div class="step-box">
+              <i class="fas fa-check-circle"></i>
+              <span style="color: rgb(250, 0, 0);">Review</span>
+            </div>
+          </li>
+          <li class="gap"></li>
+          <li class="gap"></li>
+          <li class="gapnew"></li>
+
+          <li *ngIf="currentStep <= 5">
+            <div class="step-box">
+              <i class="fa fa-map-signs" *ngIf="currentStep == 5" style="color: yellowgreen;font-size: 40px;"></i>
+              <i class="fas fa-circle" *ngIf="currentStep != 5"></i>
+              <span *ngIf="currentStep != 5">Finish</span>
+              <span style="font-weight: bold;" *ngIf="currentStep == 5">Finish</span>
+            </div>
+          </li>
+          <li *ngIf="currentStep > 5">
+            <div class="step-box">
+              <i class="fas fa-check-circle"></i>
+              <span style="color: rgb(250, 0, 0);">Finish</span>
+            </div>
+          </li>
+      </ul>
+      <hr>
+    <div *ngIf="currentStep == 1" class="bodyStyle">
+        <h3><u><b>Instruction</b></u>&nbsp;<i class="fas fa-info-circle"></i></h3>
+        <br>
+  <p>Please read the following instructions carefully before proceeding to add new Test Details:</p>
+  <ol>
+    <li>
+      First, add all questions you require for the test by clicking on the <strong>Upsert Question</strong> button from the side menu.
+    </li>
+    <br>
+    <li>
+      In case you need to add a new question while adding a question, do not click on the Upsert Question button. Instead, click on the <strong>Add New Question</strong> button shown on that screen itself. It will redirect you to a new page.
+    </li>
+    <br>
+    <li>
+      After adding a new question from the new tab, refresh the question list by clicking on the <strong>Refresh</strong> button on the same tab and proceed to add questions.
+    </li>
+    <br>
+    <li>
+      Do not navigate away from or refresh the tab during the addition of questions, else all the details may be lost.
+    </li>
+    <br>
+  </ol>
+  <input type="checkbox" style="height: 1.3vw;width: 1.3vw;" id="proceedCheckbox" (click)="proceedClicked()">&nbsp;&nbsp;&nbsp;
+  <label for="proceedCheckbox" ><u style = "color: blue;">I have read and understood the instructions. Proceed to the next step.</u></label>
+    </div>
+    <div *ngIf="currentStep == 2" class="bodyStyle">
+      <h3><u><b>Basic Details</b></u>&nbsp;<i class="fas fa-address-card"></i></h3>
+      <br>
+      <p>To begin creating your test, please provide the following basic details:</p>
+      <br>
+      <b>Enter Test Name:</b> 
+      <input type="text" name="testName" id="testName" class="form-control" style="width: 35vw;height: 5vw;">
+      <b>Enter Test Category:</b> 
+      <input type="number" name="numQuestion" id="numQuestion" class="form-control" style="width: 15vw;height: 4vw;">
+      <b>Enter Number Of Question:</b> 
+      <input type="number" name="numQuestion" id="numQuestion" class="form-control" style="width: 15vw;height: 4vw;">
+      <p style="color: red;">*Enter All the details to proceed!!</p>
+    </div>
+    <div *ngIf="currentStep == 3">
+      Select Questions and details from here.
+    </div>
+    <div *ngIf="currentStep == 4">
+      review your added Module Here.
+    </div>
+    <div *ngIf="currentStep == 5">
+      Load you final Question Details Here.
+    </div>
+    <hr>
+    <div class="buttons-container">
+      <button class="btn btn-dark" (click)="prevStep()" [disabled]="currentStep <= 1">Back</button>&nbsp;&nbsp;&nbsp;&nbsp;
+      <button class="btn btn-dark" (click)="nextStep()" [disabled]="currentStep > 5 || isEnabledNext">Next</button>
+    </div>
+  </div>
+<div class="container">
+    
+</div>
+  

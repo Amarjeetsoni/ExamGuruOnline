@@ -1,0 +1,56 @@
+.steps {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .step-box {
+    text-align: center;
+  }
+  
+  .step-box i {
+    font-size: 24px;
+  }
+  
+  .step-box span {
+    display: block;
+  }
+
+  .buttons-container {
+    display: flex;
+    justify-content: center; /* Horizontal centering */
+    align-items: center; /* Vertical centering */
+  }
+
+  
+  /* Adjust styling for the circles and checkmark icons */
+  .fa-circle, .fa-check-circle {
+    color: #ccc; /* Change the color of the circles */
+  }
+  
+  .fa-check-circle {
+    color: green; /* Change the color of the checkmark */
+  }
+  .gap, .gapnew {
+    display: inline-block;
+    width: 50px; /* Adjust the width of the gap as needed */
+  }
+  
+  /* Adjust the size of the line for larger screens */
+  @media screen and (min-width: 768px) {
+    .gap, .gapnew {
+      border-bottom-width: 3px;
+    }
+  }
+
+
+  .bodyStyle {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  h3 {
+    color: #333;
+    text-align: center;
+  }

@@ -7,9 +7,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestUpsertComponent implements OnInit {
 
+  isEnabledNext: boolean = true;
   constructor() { }
 
   ngOnInit(): void {
   }
+currentStep:any = 1;
+prevStep() {
+    if(this.currentStep > 1){
+      this.currentStep--;
+    }
+    if(this.currentStep == 1){
+      this.isEnabledNext = true;
+    }
+}
+
+nextStep() {
+    if(this.currentStep <= 5){
+      this.currentStep++;
+    }
+}
+
+proceedClicked() {
+  if(this.isEnabledNext){
+    this.isEnabledNext = false;
+  }else{
+    this.isEnabledNext = true;
+  }
+  
+}
 
 }
