@@ -119,15 +119,30 @@
       <p>To begin creating your test, please provide the following basic details:</p>
       <br>
       <b>Enter Test Name:</b> 
-      <input type="text" name="testName" id="testName" class="form-control" style="width: 35vw;height: 5vw;">
+      <div class="row col-6">
+        <input type="text" name="testName" id="testName" class="form-control" [(ngModel)]="testName">
+      </div>
       <b>Enter Test Category:</b> 
-      <input type="number" name="numQuestion" id="numQuestion" class="form-control" style="width: 15vw;height: 4vw;">
+      <div class="row">
+        <div class="col-6">
+          <select id="testCategory" name="testCategory" class="form-control" [(ngModel)]="testCategory">
+            <option value="" disabled selected>Select an Question Category</option>
+            <option *ngFor="let cat of allQuestionCategory" [value]="cat['categoryId']">{{ cat['categoryDesc'] }}</option>
+          </select>
+        </div>
+        <div class="col-5">
+          <button type="button" class="btn btn-link" (click)="addNewQuestionCategoryName()">RegisterNewOne?</button>
+        </div>
+      </div>
       <b>Enter Number Of Question:</b> 
-      <input type="number" name="numQuestion" id="numQuestion" class="form-control" style="width: 15vw;height: 4vw;">
-      <p style="color: red;">*Enter All the details to proceed!!</p>
+      <div class="row col-6">
+      <input type="number" name="numQuestion" id="numQuestion" class="form-control" [(ngModel)]="numQuestion">
+    </div>
+    <br>
+      <p style="color: red; font-size: small;">*Enter All the details to proceed!!</p>
     </div>
     <div *ngIf="currentStep == 3">
-      Select Questions and details from here.
+      <h3><u><b>Select Questions</b></u>&nbsp;<i class="fas fa-list-alt"></i></h3>
     </div>
     <div *ngIf="currentStep == 4">
       review your added Module Here.
