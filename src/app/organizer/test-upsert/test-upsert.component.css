@@ -54,3 +54,37 @@
     color: #333;
     text-align: center;
   }
+
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    width: 60%; /* Adjust the width as needed */
+    height: 95%; /* Adjust the height as needed */
+    max-width: 1000px;
+    max-height: 600px;
+    overflow: auto; /* Add scrollbar if content overflows */
+  }
+  
+  .option-container {
+    margin-bottom: 10px;
+  }
+
+  .popup-content {
+    text-align: center;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    background: red;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+  }

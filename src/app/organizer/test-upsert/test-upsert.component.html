@@ -143,6 +143,117 @@
     </div>
     <div *ngIf="currentStep == 3">
       <h3><u><b>Select Questions</b></u>&nbsp;<i class="fas fa-list-alt"></i></h3>
+      <br>
+      <p class="bodyStyle">Choose a total of <b>{{numQuestion}}</b> questions using checkboxes. To arrange question details by their respective fields, simply click on the field name. To add a new question, click on "Add New Question" on the same page and after adding click on refress button. For further question details, click on the "View" button.</p>
+      <br>
+      <div class="row">
+        <div class="col-3">
+          <i style = "color: blue;">Questions to be Selected </i>: <b style="color: red;font-size: large;">{{numQuestion}} </b>
+        </div>
+        <div class="col-4">
+          <i style = "color: blue;">Questions Selected Currently</i>: <b style="color: red;font-size: large;">{{totalSelectedQuestions}} </b>
+        </div>
+        <div class="col-3">
+          <button type="button" class="btn btn-outline-warning" (click)="redirectToNewQuestion()"><i class = "fa fa-plus-square"></i> Add Question</button>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-outline-primary" type="button" (click)="refreshQuestion()">Refresh <i class="fas fa-sync"></i></button>
+        </div>
+
+      </div>
+      <div class="container mt-4" style="height: 300px; overflow: auto;">
+        <table class="table table-striped">
+          <!-- Table headers -->
+          <thead>
+            <tr>
+              <th>Select</th>
+              <th>Question</th>
+              <th>Category</th>
+              <th>Created By User</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <!-- Table body -->
+          <tbody *ngIf="filteredQuestions.length !== 0">
+            <tr *ngFor="let question of filteredQuestions">
+              <!-- Display question details -->
+              <td><input type="checkbox" (change)="checkBoxClicked(question, $event)"></td>
+              <td>{{ question.question }}</td>
+              <td>{{ question.categoryDesc }}</td>
+              <td>{{ question.createdByUser }}</td>
+              <td>
+                <button class="btn btn-info" (click)="viewDetails(question)" [disabled]="isPopupOpen || viewQuestion">View</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="filteredQuestions.length === 0" class="alert alert-info">No questions details found.</div>
+      </div>
+      <div class="popup" *ngIf="viewQuestion">
+        <div class="popup-content">
+          <button class="btn btn-link close-button" (click)="CloseViewQuestion()"><i class="fa fa-close"></i></button>
+          <h4 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color: #3498db; text-align: center;"><u>View Question Details</u></h4>
+          <div class="bg-white">
+            <div class="col-md-12 col-sm-12 col-lg-12">
+              <form>
+                  <div class="p-3 py-5">
+                      <div class="row mt-3">
+                            <textarea class="form-control" value={{selectedQuestion.question}} disabled></textarea>
+                      </div>
+                      <div class="row mt-3">
+                          <div class="row-5">
+                            <label class="labels">Category : </label> &nbsp;&nbsp;&nbsp;
+                          </div>
+                          <div class= "row-6">
+                           <input type="text" class="form-control" value={{selectedQuestion.categoryDesc}} disabled>
+                          </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div>
+                            <div *ngFor="let option of selectedQuestion.questionOption; let i = index" class="row mt-3">
+                                <div class="col-5">
+                                    <i>Option {{i+1}}: </i>
+                                </div>
+                                <div class="col-7">
+                                    <textarea class="form-control" value={{option}} disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                      <div class="row mt-3">
+                        <div class="row-5">
+                          <label class="labels">Org Name : </label> &nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div class= "row-6">
+                          <input type="text" class="form-control" placeholder="Organization Name" value={{organizationName}} disabled>
+                      
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="row-5">
+                          <label class="labels">Added by : </label> &nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div class= "row-6">
+                        <input type="text" class="form-control" placeholder="By User" value={{selectedQuestion.createdByUser}} disabled>
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <label class="labels" *ngIf="this.selectedQuestion.isMultipleChoise"><i class = "fa fa-check-square" style="font-size:24px;"></i></label>
+                        <label class="labels" *ngIf="!this.selectedQuestion.isMultipleChoise"><i class = "fa fa-square" style="font-size:24px; color: gainsboro;"></i></label>
+                         &nbsp;&nbsp;&nbsp;
+                        <label class="labels">IsMultiple Choise</label>
+                      </div>
+                      <div class="row mt-3">
+                        <label class="labels">Correct Options</label>&nbsp;&nbsp;&nbsp;
+                        <textarea class="form-control" type="text" value={{selectedQuestion.correctOption}} disabled></textarea>
+                      </div>
+                      <div class="mt-5 text-center"><button class="btn btn-warning profile-button" type="button" (click)="CloseViewQuestion()">Close</button></div>
+                  </div>
+              </form>
+              </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div *ngIf="currentStep == 4">
       review your added Module Here.

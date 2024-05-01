@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginSignupServiceService } from 'src/app/services/login-signup-service.service';
 import swal from 'sweetalert';
+import { Question } from '../question-upsert/question-upsert.component';
+import { UserData } from 'src/app/dataModel/UserData';
+import { AuthenticateServiceService } from 'src/app/services/authenticate-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-test-upsert',
@@ -10,14 +14,79 @@ import swal from 'sweetalert';
 export class TestUpsertComponent implements OnInit {
 
   allQuestionCategory: any;
+  totalSelectedQuestions: any = 0;
+  viewQuestion: boolean = false;
+  selectedQuestion: Question = new Question();
+  AllQuestions: Question[] = [];
   testName: any;
   testCategory: any = '';
+  isPopupOpen = false;
+  organizationName: any;
   numQuestion: any;
+  filteredQuestions: Question[] = [];
   isEnabledNext: boolean = true;
-  constructor( private loginsignup: LoginSignupServiceService) {
+  constructor( private loginsignup: LoginSignupServiceService,  public user: UserData, private auth: AuthenticateServiceService, private router: Router) {
     this.fetchAndLoadNewCategoryList();
+    var token = auth.decodeToken();
+    this.loginsignup.getUserByEmail(token.emailId).subscribe(
+      response => {
+        this.user = response;
+        this.loginsignup.getOrganizationNameById(this.user.organizationId).subscribe(
+          response => {
+            this.organizationName = response.orgName;
+          },
+          error => {
+            swal("🤨", error.error, "error");
+          }
+        );
+        this.refressQuestionList();
+      },
+      error => {
+        swal("🤨", "Not able to fetch Details of Provided Mail", "error");
+      });
    }
-
+   redirectToNewQuestion(){
+    window.open('Organizer/question', '_blank');
+   }
+   refreshQuestion(){
+    this.refressQuestionList();
+   }
+   CloseViewQuestion() {
+    this.viewQuestion = false;
+  }
+   refressQuestionList(){
+    this.loginsignup.getQuestionsByOrdhanizationId(this.user.organizationId, this.user.email).subscribe(
+      response => {
+        this.AllQuestions = response;
+        this.AllQuestions.forEach(question => {
+          const category = this.allQuestionCategory.find((cat: { categoryId: number; }) => cat.categoryId === question.questionCategoryId);
+          question.categoryDesc = category ? category.categoryDesc : "NA";
+        });
+        this.AllQuestions.forEach(question =>{
+          question.isUpdateEnabled = question.correctOption != null ? false : true;
+        });
+        this.filteredQuestions = this.AllQuestions;
+      },
+      error => {
+        swal("🤨", error.error, "error");
+      }
+    );
+  }
+  checkBoxClicked(question: any, event: any){
+    const isChecked: boolean | null | undefined = event?.target?.checked ?? null;
+    if (isChecked !== null) {
+      if (isChecked) {
+        this.totalSelectedQuestions++;
+      } else {
+        this.totalSelectedQuestions--;
+      }
+    }
+  }
+  viewDetails(question: any) {
+    this.viewQuestion = true;
+    this.selectedQuestion = question;
+    this.selectedQuestion.isMultipleChoise = question.multipleChoise;
+  }
   ngOnInit(): void {
   }
 currentStep:any = 1;
