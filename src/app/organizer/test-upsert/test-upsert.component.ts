@@ -20,6 +20,8 @@ export class TestUpsertComponent implements OnInit {
   AllQuestions: Question[] = [];
   testName: any;
   testCategory: any = '';
+  filterCategory: any = '';
+  listOfQuestionIdsSelected: any[] = [];
   isPopupOpen = false;
   organizationName: any;
   numQuestion: any;
@@ -49,7 +51,16 @@ export class TestUpsertComponent implements OnInit {
     window.open('Organizer/question', '_blank');
    }
    refreshQuestion(){
+    this.totalSelectedQuestions = 0;
     this.refressQuestionList();
+   }
+   onCategoryChange(){
+    if(this.filterCategory == ""){
+      this.filteredQuestions = this.AllQuestions;
+      return;
+    }
+    this.filteredQuestions = this.AllQuestions;
+    this.filteredQuestions = this.filteredQuestions.filter(t=> t.categoryDesc === this.filterCategory);
    }
    CloseViewQuestion() {
     this.viewQuestion = false;
@@ -76,8 +87,10 @@ export class TestUpsertComponent implements OnInit {
     const isChecked: boolean | null | undefined = event?.target?.checked ?? null;
     if (isChecked !== null) {
       if (isChecked) {
+        this.listOfQuestionIdsSelected.push(question.questionID);
         this.totalSelectedQuestions++;
       } else {
+        this.listOfQuestionIdsSelected = this.listOfQuestionIdsSelected.filter(t => t.questionID !== question.questionID);
         this.totalSelectedQuestions--;
       }
     }
@@ -123,11 +136,22 @@ nextStep() {
         return;
       }
     }
+    if(this.currentStep === 3){
+      if(!this.checkListOfSelectedQuestion()){
+        return;
+      }
+    }
     if(this.currentStep <= 5){
       this.currentStep++;
     }
 }
-
+checkListOfSelectedQuestion(){
+  if(this.listOfQuestionIdsSelected.length !== this.numQuestion){
+    swal("🤔", "Please select " + this.numQuestion + " question to proceed!!", "warning")
+    return false;
+  }
+  return true;
+}
 proceedClicked() {
   if(this.isEnabledNext){
     this.isEnabledNext = false;
