@@ -83,4 +83,9 @@ export class LoginSignupServiceService {
     return this.http.put<any>(url, question, { responseType: 'text' as 'json' });
   }
 
+  registerANewTestDetails(test: any){
+    const url = this.apiUrl + "/addTest";
+    return this.http.post<any>(url, test, { responseType: 'text' as 'json' });
+  }
+
 }

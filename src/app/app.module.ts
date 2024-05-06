@@ -24,7 +24,7 @@ import { HttpInterceptorInterceptorService } from './services/http-interceptor-i
     HomePageComponent,
     LoginPageComponent,
     SignupPageComponent,
-    ForgetPasswordComponent
+    ForgetPasswordComponent,
   ],
   imports: [
     BrowserModule,
