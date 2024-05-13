@@ -14,7 +14,7 @@ import { ButtonList, ButtonOptions } from 'sweetalert/typings/modules/options/bu
 })
 export class TestUpsertComponent implements OnInit {
 
-  collectTestDetails: any;
+  collectTestDetails: TestDetails = new TestDetails();
   allQuestionCategory: any;
   totalSelectedQuestions: any = 0;
   viewQuestion: boolean = false;
@@ -170,9 +170,9 @@ nextStep() {
         } as ButtonList
       }).then((result) => {
         if (result) {
+          this.registerTestDetails();
           this.currentStep++;
           this.backNextDisabled = true;
-          this.registerTestDetails();
         } else {
           return;
         }
@@ -183,6 +183,8 @@ nextStep() {
     }
 }
   registerTestDetails() {
+    let count = this.listOfQuestionIdsSelected.map(mp => mp.questionID);
+    console.log("In this method " + count);
     this.collectTestDetails.isActive = this.isActive;
     this.collectTestDetails.organizationId = this.user.organizationId;
     this.collectTestDetails.testCategoryId = this.testCategory;
@@ -190,7 +192,7 @@ nextStep() {
     this.collectTestDetails.testName = this.testName;
     this.collectTestDetails.totalMarks = this.totalSelectedQuestions;
     this.collectTestDetails.userId = this.user.email;
-    this.collectTestDetails.questionId = this.listOfQuestionIdsSelected;
+    this.collectTestDetails.questionId = count;
     this.loginsignup.registerANewTestDetails(this.collectTestDetails).subscribe(
       response =>{
         swal("😊", "Test Details with the Name : " + this.testName + " Registered SuccessFully!!", "success");
@@ -202,8 +204,6 @@ nextStep() {
     )
   }
   getCategoryNameById() {
-    console.log(this.testCategory);
-    console.log(this.allQuestionCategory);
     for(let cat of this.allQuestionCategory){
       if(cat['categoryId'] == this.testCategory){
         this.questionCategoryDesc = cat['categoryDesc'];
@@ -262,4 +262,15 @@ checkAndSaveBasicTestDetails() {
 }
 
 
+}
+
+export class TestDetails {
+    isActive: boolean = false;
+    organizationId: number = 0;
+    testCategoryId: number = 0;
+    testDuration:number = 0;
+    testName:string = "";
+    totalMarks: number = 0;
+    userId: string = "";
+    questionId: string[] = []; 
 }

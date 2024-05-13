@@ -9,6 +9,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserData } from "../dataModel/UserData";
 import { QuestionUpsertComponent } from './question-upsert/question-upsert.component';
 import { TestUpsertComponent } from './test-upsert/test-upsert.component';
+import { TestUpdateComponent } from './test-update/test-update.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { TestUpsertComponent } from './test-upsert/test-upsert.component';
     OrganizerStatisticsComponent,
     UserProfileComponent,
     QuestionUpsertComponent,
-    TestUpsertComponent
+    TestUpsertComponent,
+    TestUpdateComponent
   ],
     imports: [
         CommonModule,

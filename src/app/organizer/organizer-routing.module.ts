@@ -5,6 +5,7 @@ import { OrganizerStatisticsComponent } from './organizer-statistics/organizer-s
 import { UserProfileComponent } from '../organizer/user-profile/user-profile.component';
 import { QuestionUpsertComponent } from './question-upsert/question-upsert.component';
 import { TestUpsertComponent } from './test-upsert/test-upsert.component';
+import { TestUpdateComponent } from './test-update/test-update.component';
 
 
 
@@ -14,6 +15,7 @@ const routes: Routes = [
     {path: 'userProfile', component: UserProfileComponent},
     {path: 'question', component: QuestionUpsertComponent},
     {path: 'test', component: TestUpsertComponent},
+    {path: 'updateTest', component: TestUpdateComponent},
     {path :'**', component: OrganizerStatisticsComponent}
   ]}
 ];

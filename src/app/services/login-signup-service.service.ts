@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { UserData } from '../dataModel/UserData';
 import { LoginData } from '../dataModel/LoginData';
 import { Question } from '../organizer/question-upsert/question-upsert.component';
+import { TestDetails } from '../organizer/test-upsert/test-upsert.component';
 
 @Injectable({
   providedIn: 'root'
@@ -83,9 +84,21 @@ export class LoginSignupServiceService {
     return this.http.put<any>(url, question, { responseType: 'text' as 'json' });
   }
 
-  registerANewTestDetails(test: any){
+  registerANewTestDetails(test: TestDetails){
+    console.log(test);
     const url = this.apiUrl + "/addTest";
     return this.http.post<any>(url, test, { responseType: 'text' as 'json' });
+  }
+
+  getAllTestDetailsByUserId(email : any){
+    const mail = encodeURIComponent(email);
+    const url = this.apiUrl + "/getTestByUser?userId="+mail;
+    return this.http.get<any>(url);
+  }
+
+  updateTestDetailsByUserId(testDetails: any){
+    const url = this.apiUrl + "/updateTest";
+    return this.http.post<any>(url, testDetails, { responseType: 'text' as 'json' });
   }
 
 }

@@ -1,0 +1,329 @@
+<h3 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color: #3498db; text-align: center;"><u>TEST UPDATE</u></h3>
+<hr>
+<div *ngIf="currentStep == 1" class="bodyStyle">
+    <p class="bodyStyle">In this page, you have the capability of viewing the test details that you have added, 
+        and furthermore, you also have the ability to modify these test details as well; 
+        if you wish to activate the test, you can seamlessly do so by navigating to the <i>"Activate Test"</i> 
+        tab located at the left column.
+    </p>
+    <hr>
+    <h3><u><b>View Test</b></u>&nbsp;<i class="fas fa-address-card"></i></h3>
+    <div class="container mt-4" style="height: 400px; overflow: auto;">
+        <table class="table table-striped">
+          <!-- Table headers -->
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Test Category</th>
+              <th>Total Questions</th>
+              <th>Is Active</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <!-- Table body -->
+          <tbody *ngIf="allTestRegisteredByUser.length !== 0">
+            <ng-container *ngFor="let test of allTestRegisteredByUser">
+            <tr>
+              <!-- Display question details -->
+              <td>{{ test.testName }}</td>
+              <td>{{ test.categoryDesc }}</td>
+              <td>{{ test.totalMarks }}</td>
+              <td>{{ test.active }}</td>
+              <td>
+                <button class="btn btn-info" (click)="updateDetails(test)">Update</button>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+        <div *ngIf="allTestRegisteredByUser.length === 0" class="alert alert-info">No Test details found with current User.</div>
+        </div>
+</div>
+<div *ngIf="currentStep == 2" class="bodyStyle">
+     <p class="bodyStyle">On this page, you have the opportunity to both view and update the specific test details that require 
+        your attention; kindly ensure to make the necessary updates to the test details as needed, 
+        and subsequently, proceed to the review page by clicking on the "Next" button.</p>
+    <hr>
+    <h3><u><b>Update Test</b></u>&nbsp;<i class="fa fa-edit"></i></h3>
+    <br>
+    <table>
+        <tr>
+          <td style="font-size: x-large;font-family: 'Courier New', Courier, monospace">Test Name :</td>
+          <td style="font-size:x-large;padding-left: 40px;font-family: 'Courier New', Courier, monospace"><input type="text" name="testName" id="testName" class="form-control" [(ngModel)]="currentlySelectedQuestion.testName"></td>
+        </tr>
+        <tr>
+          <td style="font-size: x-large;font-family: 'Courier New', Courier, monospace">Test Category :</td>
+          <td style="font-size:x-large;padding-left: 40px;font-family: 'Courier New', Courier, monospace">
+            <select id="testCategory" name="testCategory" class="form-control" [(ngModel)]="currentlySelectedQuestion.testCategoryId">
+              <option value="" disabled selected>Select an Question Category</option>
+              <option *ngFor="let cat of allQuestionCategory" [value]="cat['categoryId']">{{ cat['categoryDesc'] }}</option>
+            </select>
+        </tr>
+        <tr>
+          <td style="font-size: x-large;font-family: 'Courier New', Courier, monospace">Test Total Question : </td>
+        <td style="font-size:x-large;padding-left: 40px;font-family: 'Courier New', Courier, monospace"><input type="number" name="testQuestion" id="testQuestion" class="form-control" [(ngModel)]="this.currentlySelectedQuestion.totalMarks"></td>
+        </tr>
+        <tr>
+          <td style="font-size: x-large;font-family: 'Courier New', Courier, monospace">Test Duration(in mins) : </td>
+          <td style="font-size:x-large;padding-left: 40px;font-family: 'Courier New', Courier, monospace"><input type="number" name="testDuration" id="testDuration" class="form-control" [(ngModel)]="currentlySelectedQuestion.testDuration"></td>
+        </tr>
+        <tr>
+          <td style="font-size: x-large;font-family: 'Courier New', Courier, monospace">Is Test Active : </td>
+          <td style="font-size:x-large;padding-left: 40px;font-family: 'Courier New', Courier, monospace"><input type="checkbox" name="isActive" id="isActive" style="height: 2vw;width: 2vw;" [(ngModel)]="currentlySelectedQuestion.active"></td>
+        </tr>
+      </table>
+      <div class="row">
+        <div class="col-3">
+          <i style = "color: blue;">Questions to be Selected </i>: <b style="color: red;font-size: large;">{{this.currentlySelectedQuestion.totalMarks}} </b>
+        </div>
+        <div class="col-4">
+          <i style = "color: blue;">Questions Selected Currently</i>: <b style="color: red;font-size: large;">{{totalSelectedQuestions}} </b>
+        </div>
+        <div class="col-3">
+          <button type="button" class="btn btn-outline-warning" (click)="redirectToNewQuestion()"><i class = "fa fa-plus-square"></i> Add Question</button>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-outline-primary" type="button" (click)="refreshQuestion()">Refresh <i class="fas fa-sync"></i></button>
+        </div>
+
+      </div>
+      <div class="container mt-4" style="height: 400px; overflow: auto;">
+        <table class="table table-striped">
+          <!-- Table headers -->
+          <thead>
+            <tr>
+              <th>Select</th>
+              <th>Question</th>
+              <th>
+                <select id="filterCategory" name="filterCategory" class="form-control" [(ngModel)]="filterCategory">
+                  <option value="" selected>All Category</option>
+                  <option *ngFor="let cat of allQuestionCategory" [value]="cat['categoryDesc']">{{ cat['categoryDesc'] }}</option>
+                </select>
+              </th>
+              <th>Created By User</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <!-- Table body -->
+          <tbody *ngIf="filteredQuestions.length !== 0">
+            <ng-container *ngFor="let question of filteredQuestions">
+            <tr *ngIf="!filterCategory || question.categoryDesc === filterCategory || question.categoryDesc === ''">
+              <!-- Display question details -->
+              <td><input type="checkbox" (change)="checkBoxClicked(question, $event)" style="width: 30px;height: 30px;" [checked]="question.isChecked"></td>
+              <td>{{ question.question }}</td>
+              <td>{{ question.categoryDesc }}</td>
+              <td>{{ question.createdByUser }}</td>
+              <td>
+                <button class="btn btn-info" (click)="viewDetails(question)" [disabled]="isPopupOpen || viewQuestion">View</button>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+        <div *ngIf="filteredQuestions.length === 0" class="alert alert-info">No questions details found.</div>
+      </div>
+      <div class="popup" *ngIf="viewQuestion">
+        <div class="popup-content">
+          <button class="btn btn-link close-button" (click)="CloseViewQuestion()"><i class="fa fa-close"></i></button>
+          <h4 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color: #3498db; text-align: center;"><u>View Question Details</u></h4>
+          <div class="bg-white">
+            <div class="col-md-12 col-sm-12 col-lg-12">
+              <form>
+                  <div class="p-3 py-5">
+                      <div class="row mt-3">
+                            <textarea class="form-control" value={{selectedQuestion.question}} disabled></textarea>
+                      </div>
+                      <div class="row mt-3">
+                          <div class="row-5">
+                            <label class="labels">Category : </label> &nbsp;&nbsp;&nbsp;
+                          </div>
+                          <div class= "row-6">
+                           <input type="text" class="form-control" value={{selectedQuestion.categoryDesc}} disabled>
+                          </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div>
+                            <div *ngFor="let option of selectedQuestion.questionOption; let i = index" class="row mt-3">
+                                <div class="col-5">
+                                    <i>Option {{i+1}}: </i>
+                                </div>
+                                <div class="col-7">
+                                    <textarea class="form-control" value={{option}} disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                      <div class="row mt-3">
+                        <div class="row-5">
+                          <label class="labels">Org Name : </label> &nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div class= "row-6">
+                          <input type="text" class="form-control" placeholder="Organization Name" value={{organizationName}} disabled>
+                      
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="row-5">
+                          <label class="labels">Added by : </label> &nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div class= "row-6">
+                        <input type="text" class="form-control" placeholder="By User" value={{selectedQuestion.createdByUser}} disabled>
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <label class="labels" *ngIf="this.selectedQuestion.isMultipleChoise"><i class = "fa fa-check-square" style="font-size:24px;"></i></label>
+                        <label class="labels" *ngIf="!this.selectedQuestion.isMultipleChoise"><i class = "fa fa-square" style="font-size:24px; color: gainsboro;"></i></label>
+                         &nbsp;&nbsp;&nbsp;
+                        <label class="labels">IsMultiple Choise</label>
+                      </div>
+                      <div class="row mt-3">
+                        <label class="labels">Correct Options</label>&nbsp;&nbsp;&nbsp;
+                        <textarea class="form-control" type="text" value={{selectedQuestion.correctOption}} disabled></textarea>
+                      </div>
+                      <div class="mt-5 text-center"><button class="btn btn-warning profile-button" type="button" (click)="CloseViewQuestion()">Close</button></div>
+                  </div>
+              </form>
+              </div>
+          </div>
+        </div>
+      </div>
+</div>
+<div *ngIf="currentStep == 3" class="bodyStyle">
+    <p class="bodyStyle">On this page, you can check and review the updated test details. 
+      If you wish to update any details, click the 'Back' button to make changes there. 
+      Once done, return here to validate and click 'Next' to proceed.</p>
+    <hr>
+    <h3><u><b>Review</b></u>&nbsp;<i class="fas fa-info-circle"></i></h3>
+    <br>
+    <table>
+      <tr>
+        <td style="font-size: x-large;font-family: 'Courier New', Courier, monospace">Test Name :</td>
+        <td style="font-size:x-large;padding-left: 40px;font-family: 'Courier New', Courier, monospace"><b style="color: blue;">{{currentlySelectedQuestion.testName}}</b></td>
+      </tr>
+      <tr>
+        <td style="font-size: x-large;font-family: 'Courier New', Courier, monospace">Test Category :</td>
+        <td style="font-size:x-large;padding-left: 40px;font-family: 'Courier New', Courier, monospace"><b style="color: blue;">{{questionCategoryDesc}} </b></td>
+      </tr>
+      <tr>
+        <td style="font-size: x-large;font-family: 'Courier New', Courier, monospace">Test Total Question : </td>
+        <td style="font-size:x-large;padding-left: 40px;font-family: 'Courier New', Courier, monospace"><b style="color: blue">{{currentlySelectedQuestion.totalMarks}}</b></td>
+      </tr>
+      <tr>
+        <td style="font-size: x-large;font-family: 'Courier New', Courier, monospace">Test Duration(in mins) : </td>
+        <td style="font-size:x-large;padding-left: 40px;font-family: 'Courier New', Courier, monospace"><b style="color: blue">{{currentlySelectedQuestion.testDuration}}</b></td>
+      </tr>
+      <tr>
+        <td style="font-size: x-large;font-family: 'Courier New', Courier, monospace">Is Test Active : </td>
+        <td style="font-size:x-large;padding-left: 40px;font-family: 'Courier New', Courier, monospace"><b style="color: blue">{{currentlySelectedQuestion.active}}</b></td>
+      </tr>
+    </table>
+    <div class="container mt-4" style="height: 400px; overflow: auto;">
+      <table class="table table-striped">
+        <!-- Table headers -->
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>
+              <select id="filterCategory" name="filterCategory" class="form-control" [(ngModel)]="filterCategory">
+                <option value="" selected>All Category</option>
+                <option *ngFor="let cat of allQuestionCategory" [value]="cat['categoryDesc']">{{ cat['categoryDesc'] }}</option>
+              </select>
+            </th>
+            <th>Created By User</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <!-- Table body -->
+        <tbody *ngIf="listOfQuestionIdsSelected.length !== 0">
+          <ng-container *ngFor="let question of listOfQuestionIdsSelected">
+          <tr *ngIf="!filterCategory || question.categoryDesc === filterCategory || question.categoryDesc === ''">
+            <!-- Display question details -->
+            <td>{{ question.question }}</td>
+            <td>{{ question.categoryDesc }}</td>
+            <td>{{ question.createdByUser }}</td>
+            <td>
+              <button class="btn btn-info" (click)="viewDetails(question)" [disabled]="isPopupOpen || viewQuestion">View</button>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+      <div *ngIf="filteredQuestions.length === 0" class="alert alert-info">No questions details found.</div>
+</div>
+<div class="popup" *ngIf="viewQuestion">
+  <div class="popup-content">
+    <button class="btn btn-link close-button" (click)="CloseViewQuestion()"><i class="fa fa-close"></i></button>
+    <h4 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color: #3498db; text-align: center;"><u>View Question Details</u></h4>
+    <div class="bg-white">
+      <div class="col-md-12 col-sm-12 col-lg-12">
+        <form>
+            <div class="p-3 py-5">
+                <div class="row mt-3">
+                      <textarea class="form-control" value={{selectedQuestion.question}} disabled></textarea>
+                </div>
+                <div class="row mt-3">
+                    <div class="row-5">
+                      <label class="labels">Category : </label> &nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div class= "row-6">
+                     <input type="text" class="form-control" value={{selectedQuestion.categoryDesc}} disabled>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                  <div>
+                      <div *ngFor="let option of selectedQuestion.questionOption; let i = index" class="row mt-3">
+                          <div class="col-5">
+                              <i>Option {{i+1}}: </i>
+                          </div>
+                          <div class="col-7">
+                              <textarea class="form-control" value={{option}} disabled></textarea>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+                <div class="row mt-3">
+                  <div class="row-5">
+                    <label class="labels">Org Name : </label> &nbsp;&nbsp;&nbsp;
+                  </div>
+                  <div class= "row-6">
+                    <input type="text" class="form-control" placeholder="Organization Name" value={{organizationName}} disabled>
+                
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="row-5">
+                    <label class="labels">Added by : </label> &nbsp;&nbsp;&nbsp;
+                  </div>
+                  <div class= "row-6">
+                  <input type="text" class="form-control" placeholder="By User" value={{selectedQuestion.createdByUser}} disabled>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <label class="labels" *ngIf="this.selectedQuestion.isMultipleChoise"><i class = "fa fa-check-square" style="font-size:24px;"></i></label>
+                  <label class="labels" *ngIf="!this.selectedQuestion.isMultipleChoise"><i class = "fa fa-square" style="font-size:24px; color: gainsboro;"></i></label>
+                   &nbsp;&nbsp;&nbsp;
+                  <label class="labels">IsMultiple Choise</label>
+                </div>
+                <div class="row mt-3">
+                  <label class="labels">Correct Options</label>&nbsp;&nbsp;&nbsp;
+                  <textarea class="form-control" type="text" value={{selectedQuestion.correctOption}} disabled></textarea>
+                </div>
+                <div class="mt-5 text-center"><button class="btn btn-warning profile-button" type="button" (click)="CloseViewQuestion()">Close</button></div>
+            </div>
+        </form>
+        </div>
+    </div>
+  </div>
+</div>
+    </div>
+<div *ngIf="currentStep == 4" class="bodyStyle">
+    <p class="bodyStyle">Test Updated Successfully !</p>
+    <hr>
+    <h3><u><b>Updated</b></u>&nbsp;<i class="fa fa-bullhorn"></i></h3>
+</div>
+
+<hr>
+<div class="buttons-container">
+  <button class="btn btn-dark" (click)="prevStep()" [disabled]="currentStep == 1">Back</button>&nbsp;&nbsp;&nbsp;&nbsp;
+  <button class="btn btn-dark" (click)="nextStep()" [disabled]="currentStep == 4">Next</button>
+</div>
