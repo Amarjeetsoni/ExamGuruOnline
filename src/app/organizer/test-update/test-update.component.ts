@@ -169,12 +169,15 @@ export class TestUpdateComponent implements OnInit {
       }).then((result) => {
         if (result) {
           this.updateTestDetails();
+          this.currentStep++;
         } else {
           return;
         }
       });
+    }else{
+      this.currentStep++;
     }
-    this.currentStep++;
+    
   }
   updateTestDetails() {
     this.loginsignup.updateTestDetailsByUserId(this.currentlySelectedQuestion).subscribe(
@@ -186,6 +189,9 @@ export class TestUpdateComponent implements OnInit {
     );
   }
 
+  redirectToActivateTest(){
+    this.router.navigate(['Organizer/activate']);
+   }
   getCategoryNameById() {
     for(let cat of this.allQuestionCategory){
       if(cat['categoryId'] == this.currentlySelectedQuestion.testCategoryId){

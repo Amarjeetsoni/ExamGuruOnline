@@ -6,6 +6,7 @@ import { UserProfileComponent } from '../organizer/user-profile/user-profile.com
 import { QuestionUpsertComponent } from './question-upsert/question-upsert.component';
 import { TestUpsertComponent } from './test-upsert/test-upsert.component';
 import { TestUpdateComponent } from './test-update/test-update.component';
+import { ActivateTestComponent } from './activate-test/activate-test.component';
 
 
 
@@ -16,6 +17,7 @@ const routes: Routes = [
     {path: 'question', component: QuestionUpsertComponent},
     {path: 'test', component: TestUpsertComponent},
     {path: 'updateTest', component: TestUpdateComponent},
+    {path: 'activate', component: ActivateTestComponent},
     {path :'**', component: OrganizerStatisticsComponent}
   ]}
 ];

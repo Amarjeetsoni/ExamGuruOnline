@@ -57,3 +57,12 @@
     height: 50vh;
     margin: 0;
   }
+
+  .message-container {
+    text-align: center;
+  }
+
+  .icon {
+    font-size: 8em;
+    margin-bottom: 15px; 
+  }
